@@ -1,0 +1,87 @@
+.emote-container {
+    top: 0%;
+    left: 0%;
+    position: absolute;
+    background:transparent;
+    overflow: hidden;
+    width: 100vw;
+    height:100vh;
+}
+
+.grouped-emote {
+    display: inline-block;
+}
+
+.grouped-emote-icon {
+    display: inline-block;
+    transform-origin: center center;
+}
+
+.emote {
+    display: inline-block;
+    position: absolute;
+    background: transparent;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    transform-origin: center center;
+}
+
+@-webkit-keyframes raining-rotating {
+    /* from or starting point */
+    0% {
+        -webkit-transform: translateY(0vh) rotateZ(0deg);
+    }
+    /* to or ending point */
+    100% {
+        -webkit-transform: translateY(100vh) rotateZ(360deg);
+    }
+}
+
+@-webkit-keyframes fade-out {
+    0%{
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    90%{
+        opacity: .1;
+    }
+    95%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+/* Defining default css for non webkit browsers */
+@keyframes raining-rotating {
+    /* from or starting point */
+    0% {
+        -webkit-transform: translateY(0vh) rotateZ(0deg);
+    }
+    /* to or ending point */
+    100% {
+        -webkit-transform: translateY(100vh) rotateZ(360deg);
+    }
+}
+
+/* Defining default css for non webkit browsers */
+@keyframes fade-out {
+    0%{
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    90%{
+        opacity: .1;
+    }
+    95%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}

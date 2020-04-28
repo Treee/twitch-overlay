@@ -1,0 +1,13 @@
+{
+    "spec_dir": "src",
+    "spec_files": [
+        "**/*[sS]pec.js",
+        "**/*[sS]pec.ts",
+        "!node_modules/**/*"
+    ],
+    "helpers": [
+        "helpers/**/*.js"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": false
+}

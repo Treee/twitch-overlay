@@ -1,0 +1,44 @@
+{
+  "name": "twitch-overlay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node node_modules/jasmine/bin/jasmine",
+    "build": "npm test && tsc && npm run build-emote-widget && npm run build-physics-widget && npm run build-keyboard-widget && npm run copy-html-css-node && npm run copy-root-files",
+    "copy-html-css-node": "copyfiles -u 1 src/**/*.html src/**/*.css src/**/*.node build",
+    "copy-root-files": "copyfiles -f main.js README.md LICENSE.txt .gitignore build",
+    "build-emote-widget": "browserify src/overlay-widgets/emote-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/emote-widget/emote-widget-bundle.js",
+    "build-physics-widget": "browserify src/overlay-widgets/physics/physics-engine.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/physics/physics-bundle.js",
+    "build-keyboard-widget": "browserify src/overlay-widgets/keyboard-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/keyboard-widget/keyboard-bundle.js",
+    "deploy": "npm run build && gh-pages --dotfiles --dist build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Treee/twitch-overlay.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Treee/twitch-overlay/issues"
+  },
+  "homepage": "https://github.com/Treee/twitch-overlay#readme",
+  "dependencies": {
+    "@types/bindings": "^1.3.0",
+    "bindings": "^1.5.0",
+    "ws": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.3",
+    "@types/jasmine": "^3.4.6",
+    "@types/jquery": "^3.3.31",
+    "@types/ws": "^6.0.3",
+    "browserify": "^16.5.0",
+    "copyfiles": "^2.1.1",
+    "gh-pages": "^2.2.0",
+    "jasmine": "^3.5.0",
+    "ts-node": "^8.4.1",
+    "tsify": "^4.0.1",
+    "typescript": "^3.7.2"
+  }
+}

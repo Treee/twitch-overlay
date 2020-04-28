@@ -1,0 +1,47 @@
+.keyboard-container {
+    top: 0vh;
+    left: 0vw;
+    position: absolute;
+    background: transparent;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    outline: none;
+}
+
+.numberpad {
+    border: 1px solid red;
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+}
+
+.keyboard {
+    border: 1px solid red;
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+}
+
+.normal-key {
+    width: 5vw;
+    height: 10vh;
+    border-radius: 0.5rem;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    top: 50vh;
+    left: 50vw;
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+.active-key {
+    background-color: red;
+    border: 1px solid black;
+}
+
+.key-symbol {
+    padding-bottom: .5rem;
+    border-radius: 0.5rem;
+}
