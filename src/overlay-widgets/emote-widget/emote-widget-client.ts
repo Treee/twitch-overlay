@@ -38,7 +38,7 @@ export class EmoteWidgetClient {
         const setIds = [twitchDefault, textEmojiDefault, amazonPrimeDefault, membTier1, membTier2, membTier3, nikeTier1, thunderTier1];
 
         const clientData = {
-            channelName: 'itsatreee',
+            channelName: this.emoteWidget.emoteConfig.channel,
             emoteSetIds: setIds
         };
         this.socket.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));

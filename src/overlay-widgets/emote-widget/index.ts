@@ -4,6 +4,9 @@ import { EmoteWidgetClient } from './emote-widget-client';
 import { EmoteFactory } from './emotes/emote-factory';
 
 
+const serverUrl = 'ws://localhost';
+const serverPort = '8446'
+
 const emoteWidgetConfig = new EmoteWidgetConfig();
 emoteWidgetConfig.setConfigFrom(window.location.search.substring(1));
 
@@ -23,7 +26,7 @@ if (!emoteWidgetConfig.botMode) {
 }
 if (emoteWidgetConfig.botMode) {
     // new EmoteWidgetClient('wss://www.itsatreee.com/emotewidgettree', emoteWidget);
-    new EmoteWidgetClient('ws://localhost:8446', emoteWidget);
+    new EmoteWidgetClient(`${serverUrl}:${serverPort}`, emoteWidget);
     // twitchApiV5.test(emoteWidgetConfig.clientId);
     emoteWidget.startSimulation();
 }

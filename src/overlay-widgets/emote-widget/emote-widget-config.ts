@@ -1,13 +1,11 @@
 export class EmoteWidgetConfig {
 
-    clientId: string = ''
-    single: string = '';
     channel: string = 'itsatreee';
     defaultImageUrl: string = 'https://cdn.betterttv.net/emote/5d3c7708c77b14468fe92fc4/2x';
     showTwitch: boolean = true;
     showBttv: boolean = true;
-    showGlobal: boolean = false;
-    botMode: boolean = false;
+    showGlobal: boolean = true;
+    botMode: boolean = true;
     totalEmotes: number = 100;
     secondsToRain: number = 10;
     secondsToWaitForRain: number = 23;
