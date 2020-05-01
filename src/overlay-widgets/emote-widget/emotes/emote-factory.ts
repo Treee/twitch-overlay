@@ -12,6 +12,10 @@ export class EmoteFactory {
 
     constructor() { }
 
+    public setMasterEmoteList(newEmotes: Emote[]) {
+        this.masterEmoteList = newEmotes;
+    }
+
     public getEmoteCodes(): string[] {
         return this.masterEmoteList.map((emote) => {
             return emote.code;
@@ -43,9 +47,35 @@ export class EmoteFactory {
         if (!foundEmote) {
             throw new Error(`No emote found for code: ${emoteCode}.`);
         }
-        foundEmote.setScale(randomNumberBetween(1, 3));
-        foundEmote.setUrl();
+        foundEmote.scale = randomNumberBetween(1, 3);
+        foundEmote.url = this.setUrl(foundEmote.type, foundEmote.id, foundEmote.scale, foundEmote.channelPointModifier);
         return foundEmote;
+    }
+
+    setUrl(emoteType: string, id: string, scale: number, channelPointModifier: string = ''): string {
+        let url = '';
+        if (emoteType === 'bttv') {
+            url = `https://cdn.betterttv.net/emote/${id}/${scale}x`;
+        } else if (emoteType === 'twitch') {
+            url = `https://static-cdn.jtvnw.net/emoticons/v1/${id}${channelPointModifier}/${scale}.0`;
+        }
+        return url;
+    }
+    convertScaleToPixels(emoteScale: number): Vector2 {
+        let emoteWidth = 0, emoteHeight = 0;
+        if (emoteScale === 1) {
+            emoteWidth = 28;
+            emoteHeight = 28;
+        }
+        else if (emoteScale === 2) {
+            emoteWidth = 56;
+            emoteHeight = 56;
+        }
+        else if (emoteScale === 3) {
+            emoteWidth = 112;
+            emoteHeight = 112;
+        }
+        return new Vector2(emoteWidth, emoteHeight);
     }
 
     public getRandomEmote(): Emote {
@@ -62,10 +92,10 @@ export class EmoteFactory {
         let emoteSize = new Vector2(28, 28); //default values
         emoteCodes.forEach((emoteCode) => {
             const emote = this.getEmoteByCode(emoteCode);
-            emote.setScale(scalar);
-            emote.setUrl();
+            emote.scale = scalar;
+            emote.url = this.setUrl(emote.type, emote.id, emote.scale, emote.channelPointModifier);
             emoteUrls.push(emote.url);
-            emoteSize = emote.convertScaleToPixels();
+            emoteSize = this.convertScaleToPixels(emote.scale);
         });
 
         const randomPosition = new Vector2(randomNumberBetween(0, canvasWidth), canvaseHeight);
@@ -87,10 +117,10 @@ export class EmoteFactory {
         let emoteSize = new Vector2(28, 28); //default values
         emoteCodes.forEach((emoteCode) => {
             const emote = this.getEmoteByCode(emoteCode);
-            emote.setScale(scalar);
-            emote.setUrl();
+            emote.scale = scalar;
+            emote.url = this.setUrl(emote.type, emote.id, emote.scale, emote.channelPointModifier);
             emoteUrls.push(emote.url);
-            emoteSize = emote.convertScaleToPixels();
+            emoteSize = this.convertScaleToPixels(emote.scale);
         });
 
         const randomPosition = new Vector2(randomNumberBetween(0, canvasWidth), 0);
@@ -107,10 +137,10 @@ export class EmoteFactory {
         let emoteSize = new Vector2(28, 28); //default values
         emoteCodes.forEach((emoteCode) => {
             const emote = this.getEmoteByCode(emoteCode);
-            emote.setScale(scalar);
-            emote.setUrl();
+            emote.scale = scalar;
+            emote.url = this.setUrl(emote.type, emote.id, emote.scale, emote.channelPointModifier);
             emoteUrls.push(emote.url);
-            emoteSize = emote.convertScaleToPixels();
+            emoteSize = this.convertScaleToPixels(emote.scale);
         });
 
         const randomVelocity = new Vector2(randomNumberBetween(1, 5), randomNumberBetween(1, 5));
@@ -158,9 +188,9 @@ export class EmoteFactory {
         for (let numEmotes = 0; numEmotes < randomNumberOfEmoteParticles; numEmotes++) {
             const randomLifespan = randomNumberBetween(1, 2);
             const randomAngularVelocity = randomNumberBetween(-4, 4);
-            emote.setScale(randomNumberBetween(1, 2));
-            emote.setUrl();
-            const emoteSize = emote.convertScaleToPixels();
+            emote.scale = randomNumberBetween(1, 2);
+            emote.url = this.setUrl(emote.type, emote.id, emote.scale, emote.channelPointModifier);
+            const emoteSize = this.convertScaleToPixels(emote.scale);
             const randomDegrees = randomNumberBetween(0, 360);
             const theta = randomDegrees * radians; // some random number between 0 and 2pi
             const randomVelocity = new Vector2(Math.cos(theta), Math.sin(theta));

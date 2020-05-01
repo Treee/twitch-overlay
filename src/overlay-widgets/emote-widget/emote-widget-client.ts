@@ -26,7 +26,22 @@ export class EmoteWidgetClient {
     onOpen(event: any) {
         console.log('[open] Connection established');
         console.log('Checking server for cached emotes');
-        this.socket.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: '' }));
+        const twitchDefault = 0;
+        const textEmojiDefault = 42;
+        const amazonPrimeDefault = 19194;
+        const membTier1 = 6112;
+        const membTier2 = 24314;
+        const membTier3 = 24315;
+        const nikeTier1 = 12661;
+        const thunderTier1 = 135189;
+
+        const setIds = [twitchDefault, textEmojiDefault, amazonPrimeDefault, membTier1, membTier2, membTier3, nikeTier1, thunderTier1];
+
+        const clientData = {
+            channelName: 'itsatreee',
+            emoteSetIds: setIds
+        };
+        this.socket.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));
         this.pingInterval = setInterval(() => {
             this.socket.send('PING');
         }, 45 * 1000); // ping the server on startup every 45 seconds to keep the connection alive
@@ -37,11 +52,7 @@ export class EmoteWidgetClient {
         if (event.data === 'PONG') { return; }
         const eventData = JSON.parse(event.data);
         if (eventData.type === SocketMessageEnum.CheckEmoteCache) {
-            if (eventData.data.length < 1) {
-                const emoteCodes = this.emoteWidget.emoteFactory.getEmoteCodes();
-                console.log('Sending list of emotes to look for', emoteCodes);
-                this.socket.send(JSON.stringify({ type: SocketMessageEnum.EmoteCodes, data: emoteCodes }));
-            }
+            this.emoteWidget.emoteFactory.setMasterEmoteList(eventData.data);
         }
         else if (eventData.type === SocketMessageEnum.FoundEmotes) {
             const invokedEmotes = eventData.data;

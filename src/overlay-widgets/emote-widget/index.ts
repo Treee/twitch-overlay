@@ -22,7 +22,8 @@ if (!emoteWidgetConfig.botMode) {
     }, 2500);
 }
 if (emoteWidgetConfig.botMode) {
-    new EmoteWidgetClient('wss://www.itsatreee.com/emotewidgettree', emoteWidget);
+    // new EmoteWidgetClient('wss://www.itsatreee.com/emotewidgettree', emoteWidget);
+    new EmoteWidgetClient('ws://localhost:8446', emoteWidget);
     // twitchApiV5.test(emoteWidgetConfig.clientId);
     emoteWidget.startSimulation();
 }

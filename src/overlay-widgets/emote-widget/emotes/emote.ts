@@ -6,12 +6,15 @@ export abstract class Emote {
     code: string;
     url: string;
     scale: number;
+    type: string;
+    channelPointModifier: string = '';
 
-    constructor(scale: number, url: string, code: string, id: string) {
+    constructor(scale: number, url: string, code: string, id: string, type: string) {
         this.url = url;
         this.scale = scale;
         this.code = code;
         this.id = id;
+        this.type = type;
     }
 
     setScale(size: number) {
@@ -56,7 +59,7 @@ export class BttvEmote extends Emote {
     imageType: string;
 
     constructor(channel: string, code: string, id: string, imageType: string) {
-        super(1, '', code, id);
+        super(1, '', code, id, 'bttv');
         this.channel = channel;
         this.imageType = imageType;
         this.setUrl();
@@ -100,7 +103,7 @@ export class TwitchEmote extends Emote {
     channelPointModifier: string = '';
 
     constructor(code: string = 'FrankerZ', emoticon_set: number, id: string, scale: number = 1, url: string = '') {
-        super(scale, url, code, id);
+        super(scale, url, code, id, 'twitch');
         this.emoticon_set = emoticon_set;
         this.setUrl();
     }
