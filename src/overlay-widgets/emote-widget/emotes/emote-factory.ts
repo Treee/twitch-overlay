@@ -87,7 +87,7 @@ export class EmoteFactory {
     }
 
     createFireworkEmote(emoteCodes: string[], canvasWidth: number, canvaseHeight: number): FireworkEmote {
-        const scalar = randomNumberBetween(1, 3)
+        const scalar = randomNumberBetween(1, 3);
         const emoteUrls: string[] = [];
         let emoteSize = new Vector2(28, 28); //default values
         emoteCodes.forEach((emoteCode) => {

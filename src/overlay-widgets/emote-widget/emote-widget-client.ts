@@ -1,7 +1,7 @@
 import { EmoteWidget } from './emote-widget';
 
 enum SocketMessageEnum {
-    FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys
+    FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys, CheckSubCount
 }
 enum ComboType {
     None, Sequence, LeftRight

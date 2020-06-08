@@ -7,7 +7,7 @@
     "test": "ts-node node_modules/jasmine/bin/jasmine",
     "build": "npm test && tsc && npm run build-emote-widget && npm run build-physics-widget && npm run build-keyboard-widget && npm run copy-html-css-node && npm run copy-root-files",
     "copy-html-css-node": "copyfiles -u 1 src/**/*.html src/**/*.css src/**/*.node build",
-    "copy-root-files": "copyfiles -f README.md LICENSE .gitignore build",
+    "copy-root-files": "copyfiles -f README.md LICENSE Arena.ttf .gitignore build",
     "build-emote-widget": "browserify src/overlay-widgets/emote-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/emote-widget/emote-widget-bundle.js",
     "build-physics-widget": "browserify src/overlay-widgets/physics/physics-engine.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/physics/physics-bundle.js",
     "build-keyboard-widget": "browserify src/overlay-widgets/keyboard-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/keyboard-widget/keyboard-bundle.js",
