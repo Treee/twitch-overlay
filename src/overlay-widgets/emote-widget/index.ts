@@ -9,7 +9,7 @@ emoteWidgetConfig.setConfigFrom(window.location.search.substring(1));
 const emoteFactory = new EmoteFactory();
 const emoteWidget = new EmoteWidget(emoteWidgetConfig, emoteFactory);
 
-const serverUrl = 'wss://www.itsatreee.com/emotewidgettree';
+const serverUrl = 'wss://www.itsatreee.com/treeemotes';
 
 if (!emoteWidgetConfig.botMode) {
     emoteWidget.startSimulation();
