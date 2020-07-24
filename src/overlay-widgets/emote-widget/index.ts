@@ -9,7 +9,13 @@ emoteWidgetConfig.setConfigFrom(window.location.search.substring(1));
 const emoteFactory = new EmoteFactory();
 const emoteWidget = new EmoteWidget(emoteWidgetConfig, emoteFactory);
 
-const serverUrl = 'wss://itsatreee.com/treeemotes/';
+let websocketRoute = 'wss://itsatreee.com/';
+if (emoteWidgetConfig.channel === 'itsatreee') {
+    websocketRoute = websocketRoute.concat('treeemotes/');
+} else if (emoteWidgetConfig.channel === "membtv") {
+    websocketRoute = websocketRoute.concat('membtvemotes/');
+}
+const serverUrl = websocketRoute;
 
 if (!emoteWidgetConfig.botMode) {
     emoteWidget.startSimulation();
@@ -18,7 +24,7 @@ if (!emoteWidgetConfig.botMode) {
     }, 2500);
 }
 if (emoteWidgetConfig.botMode) {
-    new EmoteWidgetClient(serverUrl, emoteWidget);
+    new EmoteWidgetClient(websocketRoute, emoteWidget);
     // twitchApiV5.test(emoteWidgetConfig.clientId);
     emoteWidget.startSimulation();
 }
