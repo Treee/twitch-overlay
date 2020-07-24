@@ -1,5 +1,6 @@
 import { EmoteWidget } from './emote-widget';
 import { Emote } from './emotes/emote';
+import { calculateExponentialBackoffInMilliseconds } from '../../helpers/math-helper';
 
 enum SocketMessageEnum {
     FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys, CheckSubCount
@@ -11,15 +12,24 @@ enum ComboType {
 export class EmoteWidgetClient {
 
     socket: WebSocket | undefined;
-    emoteWidget: EmoteWidget | undefined;
+    emoteWidget: EmoteWidget;
 
     pingInterval: any;
+    reconnectInterval: any;
+
+    numTimesTriedToReconnect: number = 0;
+
+    serverUrl: string;
 
     constructor(serverUrl: string, emoteWidget: EmoteWidget) {
+        this.serverUrl = serverUrl;
+        this.emoteWidget = emoteWidget;
         this.startClient(serverUrl, emoteWidget);
     }
 
     onOpen(event: any) {
+        this.numTimesTriedToReconnect = 0;
+        clearInterval(this.reconnectInterval);
         console.log('[open] Connection established');
         console.log('Checking server for cached emotes');
         const twitchDefault = 0;
@@ -69,9 +79,15 @@ export class EmoteWidgetClient {
         if (event.wasClean) {
             console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
         } else {
+            console.log('socket', this.socket);
             // e.g. server process killed or network down
             // event.code is usually 1006 in this case
             console.log('[close] Connection died');
+            this.reconnectInterval = setInterval((reconnectTimes) => {
+                console.log(`Attempting to reconnect to ${this.serverUrl} on ${new Date()}. Reconnect Attempts: ${reconnectTimes}`);
+                this.startClient(this.serverUrl, this.emoteWidget);
+                clearInterval(this.reconnectInterval);
+            }, calculateExponentialBackoffInMilliseconds(this.numTimesTriedToReconnect), this.numTimesTriedToReconnect++); // try to restart every 5 seconds
         }
         clearInterval(this.pingInterval);
     }
@@ -81,11 +97,12 @@ export class EmoteWidgetClient {
     }
 
     startClient(serverUrl: string, emoteWidget: EmoteWidget) {
+        console.log(`Attempting to connect to ${serverUrl}`);
         this.emoteWidget = emoteWidget;
         this.socket = new WebSocket(serverUrl);
         this.socket.onopen = this.onOpen.bind(this);
         this.socket.onmessage = this.onMessage.bind(this);
-        this.socket.onclose = this.onClose;
-        this.socket.onerror = this.onError;
+        this.socket.onclose = this.onClose.bind(this);
+        this.socket.onerror = this.onError.bind(this);
     }
 }
