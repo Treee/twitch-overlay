@@ -1,4 +1,5 @@
 import { EmoteWidget } from './emote-widget';
+import { Emote } from './emotes/emote';
 
 enum SocketMessageEnum {
     FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys, CheckSubCount
@@ -9,18 +10,13 @@ enum ComboType {
 
 export class EmoteWidgetClient {
 
-    socket: WebSocket;
-    emoteWidget: EmoteWidget;
+    socket: WebSocket | undefined;
+    emoteWidget: EmoteWidget | undefined;
 
     pingInterval: any;
 
     constructor(serverUrl: string, emoteWidget: EmoteWidget) {
-        this.emoteWidget = emoteWidget;
-        this.socket = new WebSocket(serverUrl);
-        this.socket.onopen = this.onOpen.bind(this);
-        this.socket.onmessage = this.onMessage.bind(this);
-        this.socket.onclose = this.onClose;
-        this.socket.onerror = this.onError;
+        this.startClient(serverUrl, emoteWidget);
     }
 
     onOpen(event: any) {
@@ -38,12 +34,12 @@ export class EmoteWidgetClient {
         const setIds = [twitchDefault, textEmojiDefault, amazonPrimeDefault, membTier1, membTier2, membTier3, nikeTier1, thunderTier1];
 
         const clientData = {
-            channelName: this.emoteWidget.emoteConfig.channel,
+            channelName: this.emoteWidget?.emoteConfig.channel,
             emoteSetIds: setIds
         };
-        this.socket.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));
+        this.socket?.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));
         this.pingInterval = setInterval(() => {
-            this.socket.send('PING');
+            this.socket?.send('PING');
         }, 45 * 1000); // ping the server on startup every 45 seconds to keep the connection alive
     }
 
@@ -52,16 +48,16 @@ export class EmoteWidgetClient {
         if (event.data === 'PONG') { return; }
         const eventData = JSON.parse(event.data);
         if (eventData.type === SocketMessageEnum.CheckEmoteCache) {
-            this.emoteWidget.emoteFactory.setMasterEmoteList(eventData.data);
+            this.emoteWidget?.emoteFactory.setMasterEmoteList(eventData.data);
         }
         else if (eventData.type === SocketMessageEnum.FoundEmotes) {
             const invokedEmotes = eventData.data;
             if (!!invokedEmotes && invokedEmotes.length > 0) {
                 invokedEmotes.forEach((emoteCode: { type: ComboType, data: string[] }) => {
                     if (emoteCode.type === ComboType.None) {
-                        this.emoteWidget.addEmoteToContainer(emoteCode.data);
+                        this.emoteWidget?.addEmoteToContainer(emoteCode.data);
                     } else if (emoteCode.type === ComboType.Sequence || emoteCode.type === ComboType.LeftRight) { // these are combo emotes
-                        this.emoteWidget.addGroupedEmoteToContainer(emoteCode.data);
+                        this.emoteWidget?.addGroupedEmoteToContainer(emoteCode.data);
                     }
                 });
             }
@@ -82,5 +78,14 @@ export class EmoteWidgetClient {
 
     onError(event: any) {
         console.log(`[error] ${event.message}`);
+    }
+
+    startClient(serverUrl: string, emoteWidget: EmoteWidget) {
+        this.emoteWidget = emoteWidget;
+        this.socket = new WebSocket(serverUrl);
+        this.socket.onopen = this.onOpen.bind(this);
+        this.socket.onmessage = this.onMessage.bind(this);
+        this.socket.onclose = this.onClose;
+        this.socket.onerror = this.onError;
     }
 }

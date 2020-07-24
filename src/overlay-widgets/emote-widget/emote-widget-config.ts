@@ -10,6 +10,7 @@ export class EmoteWidgetConfig {
     secondsToRain: number = 10;
     secondsToWaitForRain: number = 23;
     numTimesToRepeat: number = 1;
+    local: boolean = false;
 
     constructor() {
 

@@ -14,7 +14,10 @@ if (emoteWidgetConfig.channel === 'itsatreee') {
     websocketRoute = websocketRoute.concat('treeemotes/');
 } else if (emoteWidgetConfig.channel === "membtv") {
     websocketRoute = websocketRoute.concat('membtvemotes/');
+} if (emoteWidgetConfig.local) {
+    websocketRoute = 'ws://localhost:8446';
 }
+
 const serverUrl = websocketRoute;
 
 if (!emoteWidgetConfig.botMode) {
@@ -25,6 +28,5 @@ if (!emoteWidgetConfig.botMode) {
 }
 if (emoteWidgetConfig.botMode) {
     new EmoteWidgetClient(websocketRoute, emoteWidget);
-    // twitchApiV5.test(emoteWidgetConfig.clientId);
     emoteWidget.startSimulation();
 }
