@@ -2,9 +2,10 @@ import { Emote, TwitchEmote } from "./emote";
 import { FireworkEmote } from "./firework-emote";
 import { RainingEmote } from "./raining-emote";
 import { WavyEmote } from "./wavy-emote";
+import { ParabolicEmote } from "./parabolic-emote";
 
 import { Vector2, RenderableObject } from "./emote-interfaces";
-import { randomNumberBetween } from '../../../helpers/math-helper';
+import { randomNumberBetween, randomNumberBetweenDecimals } from '../../../helpers/math-helper';
 
 export class EmoteFactory {
 
@@ -84,6 +85,36 @@ export class EmoteFactory {
             throw new Error('No Emotes in the master list.');
         }
         return this.getEmoteByCode(this.masterEmoteList[randomIndex].code);
+    }
+
+    createParabolicEmote(emoteCodes: string[], canvasWidth: number, canvaseHeight: number, isBouncy: boolean = false): ParabolicEmote {
+        const scalar = randomNumberBetween(1, 3);
+        const emoteUrls: string[] = [];
+        let emoteSize = new Vector2(28, 28); //default values
+        emoteCodes.forEach((emoteCode) => {
+            const emote = this.getEmoteByCode(emoteCode);
+            emote.scale = scalar;
+            emote.url = this.setUrl(emote.type, emote.id, emote.scale, emote.channelPointModifier);
+            emoteUrls.push(emote.url);
+            emoteSize = this.convertScaleToPixels(emote.scale);
+        });
+
+        const randomPosition = new Vector2(canvasWidth / 2, canvaseHeight);
+
+        const xVelocityDirection = randomNumberBetween(1, 10) % 2 === 0 ? 1 : -1;
+
+        const randomVelocity = new Vector2(randomNumberBetweenDecimals(0.3, 1.7) * xVelocityDirection, randomNumberBetweenDecimals(2.2, 6.5) * -1);
+        let randomLifespan = randomNumberBetween(6, 7);
+        if (isBouncy) {
+            randomLifespan = randomLifespan * 2;
+        }
+        const randomAngularVelocity = randomNumberBetween(1, 2);
+
+        const parabolicEmote = new ParabolicEmote(randomPosition, randomVelocity, randomLifespan, emoteSize, emoteUrls, randomAngularVelocity);
+        parabolicEmote.isBouncy = isBouncy;
+        parabolicEmote.canvasHeight = canvaseHeight;
+        parabolicEmote.code = emoteCodes[0];
+        return parabolicEmote;
     }
 
     createFireworkEmote(emoteCodes: string[], canvasWidth: number, canvaseHeight: number): FireworkEmote {

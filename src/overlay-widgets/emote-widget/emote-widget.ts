@@ -16,11 +16,15 @@ export class EmoteWidget {
 
     private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject {
         let drawable: RenderableObject = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        const randomAnimationType = randomNumberBetween(1, 3);
+        const randomAnimationType = randomNumberBetween(5, 5);
         if (randomAnimationType === 2) {
             drawable = this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
         } if (randomAnimationType === 3) {
             drawable = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
+        } if (randomAnimationType === 4) {
+            drawable = this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
+        } if (randomAnimationType === 5) {
+            drawable = this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight(), true);
         }
         return drawable;
     }

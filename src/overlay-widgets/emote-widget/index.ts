@@ -29,4 +29,8 @@ if (!emoteWidgetConfig.botMode) {
 if (emoteWidgetConfig.botMode) {
     new EmoteWidgetClient(websocketRoute, emoteWidget);
     emoteWidget.startSimulation();
+    // setInterval(() => {
+    //     emoteWidget.addEmoteToContainer(['itsatreeHi']);
+    // }, 500);
+
 }

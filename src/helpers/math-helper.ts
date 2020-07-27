@@ -2,6 +2,10 @@ export function randomNumberBetween(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+export function randomNumberBetweenDecimals(min: number, max: number): number {
+    return Math.random() * (max - min + 1);
+}
+
 export function calculateExponentialBackoffInMilliseconds(iteration: number, maxBackoff: number = 300000): number {
     const powerOfTwo = Math.pow(2, iteration) * 1000;
     const randomMilliseconds = randomNumberBetween(1, 1000);
