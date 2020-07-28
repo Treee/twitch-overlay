@@ -1,10 +1,13 @@
 import { EmoteWidget } from './emote-widget';
-import { Emote } from './emotes/emote';
 import { calculateExponentialBackoffInMilliseconds } from '../../helpers/math-helper';
 
-enum SocketMessageEnum {
-    FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys, CheckSubCount
+export enum SocketMessageEnum {
+    FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys,
+    EmoteOnlyModeActive, EmoteOnlyModeDisabled, ChatCleared, Bits, Banned,
+    FirstTimeSubscription, MysteryGiftSubscription, GiftSubscription, ReSubscription,
+    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade
 }
+
 enum ComboType {
     None, Sequence, LeftRight
 }
