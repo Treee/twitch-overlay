@@ -1,5 +1,5 @@
 import { EmoteWidget } from './emote-widget';
-import { calculateExponentialBackoffInMilliseconds } from '../../helpers/math-helper';
+import { calculateExponentialBackoffInMilliseconds, randomNumberBetween } from '../../helpers/math-helper';
 
 export enum SocketMessageEnum {
     FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys,
@@ -75,6 +75,72 @@ export class EmoteWidgetClient {
                 });
             }
         }
+        else if (eventData.type === SocketMessageEnum.EmoteOnlyModeActive) {
+            for (let index = 0; index < randomNumberBetween(3, 9); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer([randomEmote.code]);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.EmoteOnlyModeDisabled) {
+            for (let index = 0; index < randomNumberBetween(3, 9); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer([randomEmote.code]);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.ChatCleared) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatreeWot']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.Bits) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEeGrump']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.Banned) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEeMad']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.FirstTimeSubscription) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.MysteryGiftSubscription) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.GiftSubscription) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.ReSubscription) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.GiftSubscriptionUpgrade) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.MysteryGiftSubscriptionUpgrade) {
+            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
     }
 
     // need to handle cwhen clients close their conenction
@@ -82,9 +148,7 @@ export class EmoteWidgetClient {
         if (event.wasClean) {
             console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
         } else {
-            console.log('socket', this.socket);
-            // e.g. server process killed or network down
-            // event.code is usually 1006 in this case
+            // e.g. server process killed or network down event.code is usually 1006 in this case
             console.log('[close] Connection died');
             this.reconnectInterval = setInterval((reconnectTimes) => {
                 console.log(`Attempting to reconnect to ${this.serverUrl} on ${new Date()}. Reconnect Attempts: ${reconnectTimes}`);
