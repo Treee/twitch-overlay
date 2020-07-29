@@ -17,31 +17,8 @@ export class RainingEmote extends RenderableObject implements Movable, Rotatable
         this.lifespan = lifespan;
         this.imageSrc = imageSrcs;
         this.angularVelocityDegrees = angularVelocity;
-        this.htmlElement = this.createHtmlElements('emote', imageSrcs, size);
+        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
         this.translate(position.x, position.y);
-    }
-
-    createHtmlElements(cssClass: string, imageUrls: string[], size: Vector2): JQuery<HTMLElement> {
-        if (imageUrls.length > 1) {
-            const element = $('<div></div>').addClass('grouped-emote');
-            element.height(`${size.y}px`);
-            element.width(`${size.x * imageUrls.length}px`);
-            imageUrls.forEach((imageUrl) => {
-                element.append(this.createHtmlElement('grouped-emote-icon', imageUrl, size));
-            });
-            return element;
-        }
-        else {
-            return this.createHtmlElement(cssClass, imageUrls[0], size);
-        }
-    }
-
-    createHtmlElement(cssClass: string, imageUrl: string, size: Vector2): JQuery<HTMLElement> {
-        const element = $('<div></div>').addClass(cssClass);
-        element.width(`${size.x}px`);
-        element.height(`${size.y}px`);
-        element.css('background', `url("${imageUrl}")`);
-        return element;
     }
 
     translate(x: number, y: number): string {

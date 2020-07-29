@@ -53,11 +53,26 @@ export abstract class RenderableObject {
     constructor() { }
 
     createHtmlElements(cssClass: string, imageUrls: string[], size: Vector2): JQuery<HTMLElement> {
-        throw new Error('createHtmlElements is not implemented in abstract class RenderableObject');
+        if (imageUrls.length > 1) {
+            const element = $('<div></div>').addClass('grouped-emote');
+            element.height(`${size.y}px`);
+            element.width(`${size.x * imageUrls.length}px`);
+            imageUrls.forEach((imageUrl) => {
+                element.append(this.createHtmlElement('grouped-emote-icon', imageUrl, size));
+            });
+            return element;
+        }
+        else {
+            return this.createHtmlElement(cssClass, imageUrls[0], size);
+        }
     }
 
     createHtmlElement(cssClass: string, imageSrc: string, size: Vector2): JQuery<HTMLElement> {
-        throw new Error('createHtmlElement is not implemented in abstract class RenderableObject');
+        const element = $('<div></div>').addClass(cssClass);
+        element.width(`${size.x}px`);
+        element.height(`${size.y}px`);
+        element.css('background', `url("${imageSrc}")`);
+        return element;
     }
 
     doUpdate(dt: number): void {
