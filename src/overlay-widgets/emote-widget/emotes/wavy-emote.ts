@@ -6,20 +6,23 @@ export class WavyEmote extends RenderableObject implements Movable, Rotatable, H
     degreesRotation: number = 0;
     imageSrc: string[];
     htmlElement: JQuery<HTMLElement>;
-    position: Vector2;
-    velocity: Vector2;
+    position: Vector2 = new Vector2();
+    velocity: Vector2 = new Vector2();
     movementTheta: number = 0;
     movementToggle: boolean = true;
-    lifespan: number;
+    lifespan: number = 0;
 
-    constructor(position: Vector2 = new Vector2(), velocity: Vector2 = new Vector2(), lifespan: number = 0, size: Vector2, imageSrc: string[], angularVelocity: number) {
+    constructor(size: Vector2, imageSrcs: string[]) {
         super();
+        this.imageSrc = imageSrcs;
+        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
+    }
+
+    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number) {
         this.position = position;
         this.velocity = velocity;
         this.lifespan = lifespan;
-        this.imageSrc = imageSrc;
         this.angularVelocityDegrees = angularVelocity;
-        this.htmlElement = super.createHtmlElements('emote', imageSrc, size);
         this.translate(position.x, position.y);
     }
 

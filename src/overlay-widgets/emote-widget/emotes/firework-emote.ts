@@ -8,22 +8,25 @@ export class FireworkEmote extends RenderableObject implements Movable, Rotatabl
     degreesRotation: number = 0;
     imageSrc: string[];
     htmlElement: JQuery<HTMLElement>;
-    position: Vector2;
-    velocity: Vector2;
-    lastFrameVelocity: Vector2;
+    position: Vector2 = new Vector2();
+    velocity: Vector2 = new Vector2();
+    lastFrameVelocity: Vector2 = new Vector2();
     acceleration: Vector2 = new Vector2(0, -1);
-    lifespan: number;
+    lifespan: number = 0;
     isExploded: boolean = false;
 
-    constructor(position: Vector2 = new Vector2(), velocity: Vector2 = new Vector2(), lifespan: number = 0, size: Vector2, imageSrc: string[], angularVelocity: number) {
+    constructor(size: Vector2, imageSrcs: string[]) {
         super();
+        this.imageSrc = imageSrcs;
+        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
+    }
+
+    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number, emoteCode: string) {
         this.position = position;
         this.velocity = velocity;
-        this.lastFrameVelocity = velocity;
         this.lifespan = lifespan;
-        this.imageSrc = imageSrc;
         this.angularVelocityDegrees = angularVelocity;
-        this.htmlElement = super.createHtmlElements('emote', imageSrc, size);
+        this.code = emoteCode;
         this.translate(position.x, position.y);
     }
 

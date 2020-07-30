@@ -4,20 +4,23 @@ export class RainingEmote extends RenderableObject implements Movable, Rotatable
     opacity: number = 1;
     angularVelocityDegrees: number = 0;
     degreesRotation: number = 0;
-    imageSrc: string[];
+    imageSrc: string[] = [];
     htmlElement: JQuery<HTMLElement>;
-    position: Vector2;
-    velocity: Vector2;
-    lifespan: number;
+    position: Vector2 = new Vector2();
+    velocity: Vector2 = new Vector2();
+    lifespan: number = 0;
 
-    constructor(position: Vector2 = new Vector2(), velocity: Vector2 = new Vector2(), lifespan: number = 0, size: Vector2, imageSrcs: string[], angularVelocity: number) {
+    constructor(size: Vector2, imageSrcs: string[]) {
         super();
+        this.imageSrc = imageSrcs;
+        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
+    }
+
+    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number) {
         this.position = position;
         this.velocity = velocity;
         this.lifespan = lifespan;
-        this.imageSrc = imageSrcs;
         this.angularVelocityDegrees = angularVelocity;
-        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
         this.translate(position.x, position.y);
     }
 
@@ -70,5 +73,4 @@ export class RainingEmote extends RenderableObject implements Movable, Rotatable
     draw(): void {
         this.applyTransform();
     }
-
 }

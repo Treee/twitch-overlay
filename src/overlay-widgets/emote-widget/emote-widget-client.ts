@@ -5,7 +5,7 @@ export enum SocketMessageEnum {
     FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys,
     EmoteOnlyModeActive, EmoteOnlyModeDisabled, ChatCleared, Bits, Banned,
     FirstTimeSubscription, MysteryGiftSubscription, GiftSubscription, ReSubscription,
-    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade
+    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade, Raided, Hosted
 }
 
 enum ComboType {
@@ -88,55 +88,55 @@ export class EmoteWidgetClient {
             }
         }
         else if (eventData.type === SocketMessageEnum.ChatCleared) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatreeWot']);
             }
         }
         else if (eventData.type === SocketMessageEnum.Bits) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEeGrump']);
             }
         }
         else if (eventData.type === SocketMessageEnum.Banned) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEeMad']);
             }
         }
         else if (eventData.type === SocketMessageEnum.FirstTimeSubscription) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.MysteryGiftSubscription) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.GiftSubscription) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.ReSubscription) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.GiftSubscriptionUpgrade) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.MysteryGiftSubscriptionUpgrade) {
-            for (let index = 0; index < randomNumberBetween(9, 15); index++) {
+            for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
