@@ -89,56 +89,59 @@ export class EmoteWidgetClient {
         }
         else if (eventData.type === SocketMessageEnum.ChatCleared) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatreeWot']);
             }
         }
         else if (eventData.type === SocketMessageEnum.Bits) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
-                this.emoteWidget?.addEmoteToContainer(['itsatrEeGrump']);
+                this.emoteWidget?.addEmoteToContainer(['itsatrEeGrump', randomEmote.code]);
             }
         }
         else if (eventData.type === SocketMessageEnum.Banned) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEeMad']);
             }
         }
         else if (eventData.type === SocketMessageEnum.FirstTimeSubscription) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.MysteryGiftSubscription) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.GiftSubscription) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.ReSubscription) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.GiftSubscriptionUpgrade) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
             }
         }
         else if (eventData.type === SocketMessageEnum.MysteryGiftSubscriptionUpgrade) {
             for (let index = 0; index < randomNumberBetween(9, 11); index++) {
-                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
                 this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast']);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.Hosted) {
+            for (let index = 0; index < eventData.data.viewers; index++) {
+                const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
+                this.emoteWidget?.addEmoteToContainer(['itsatrEee2', 'itsatrEeTeee', 'itsatrEeCool', 'itsatrEeToast', randomEmote.code]);
+            }
+        }
+        else if (eventData.type === SocketMessageEnum.Raided) {
+            for (let index = 0; index < eventData.data.viewers; index++) {
+                this.emoteWidget?.addEmoteToContainer(['TombRaid', 'TombRaid']);
             }
         }
     }
