@@ -51,14 +51,14 @@ export class EmoteWidget {
     }
 
     addEmoteToCanvasAndDrawables(drawable: RenderableObject) {
-        if (drawable?.htmlElement) {
-            setTimeout(() => {
+        setTimeout(() => {
+            if (drawable.htmlElement) {
                 if (drawable.htmlElement) {
                     $(`.emote-container`).append(drawable.htmlElement);
                 }
-            }, randomNumberBetween(100, 500));
-        }
-        this.emotesToDraw.push(drawable);
+            }
+            this.emotesToDraw.push(drawable);
+        }, randomNumberBetween(100, 300));
     }
 
     private getViewHeight() {
@@ -86,9 +86,7 @@ export class EmoteWidget {
                 emote.isExploded = true;
                 const explodedEmotes = this.emoteFactory.explodeIntoEmotes(emote.emoteCodes[0], emote.position);
                 explodedEmotes.forEach((newEmote) => {
-                    setTimeout(() => {
-                        this.addEmoteToCanvasAndDrawables(newEmote);
-                    }, 150);
+                    this.addEmoteToCanvasAndDrawables(newEmote);
                 });
             }
         });
