@@ -1,30 +1,9 @@
 import { RenderableObject, Vector2 } from './emote-interfaces';
 
 export class WavyEmote extends RenderableObject {
-    opacity: number = 1;
-    angularVelocityDegrees: number = 0;
-    degreesRotation: number = 0;
-    imageSrc: string[];
-    htmlElement: JQuery<HTMLElement>;
-    position: Vector2 = new Vector2();
-    velocity: Vector2 = new Vector2();
+
     movementTheta: number = 0;
     movementToggle: boolean = true;
-    lifespan: number = 0;
-
-    constructor(size: Vector2, imageSrcs: string[]) {
-        super();
-        this.imageSrc = imageSrcs;
-        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
-    }
-
-    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number) {
-        this.position = position;
-        this.velocity = velocity;
-        this.lifespan = lifespan;
-        this.angularVelocityDegrees = angularVelocity;
-        this.translate(position.x, position.y);
-    }
 
     calculateNextMoveFrame(dt: number): Vector2 {
         if (this.movementToggle) {

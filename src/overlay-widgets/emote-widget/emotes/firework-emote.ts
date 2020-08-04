@@ -2,36 +2,14 @@ import { RenderableObject, Vector2 } from './emote-interfaces';
 
 export class FireworkEmote extends RenderableObject {
 
-    code: string = '';
-    opacity: number = 1;
-    angularVelocityDegrees: number = 0;
-    degreesRotation: number = 0;
-    imageSrc: string[];
-    htmlElement: JQuery<HTMLElement>;
-    position: Vector2 = new Vector2();
-    velocity: Vector2 = new Vector2();
-    acceleration: Vector2 = new Vector2(0, -1);
-    lifespan: number = 0;
-    isExploded: boolean = false;
-
-    constructor(size: Vector2, imageSrcs: string[]) {
-        super();
-        this.imageSrc = imageSrcs;
-        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
-    }
-
-    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number, emoteCode: string) {
-        this.position = position;
-        this.velocity = velocity;
-        this.lifespan = lifespan;
-        this.angularVelocityDegrees = angularVelocity;
-        this.code = emoteCode;
-        this.translate(position.x, position.y);
-    }
-
     accelerate(dt: number): void {
         // this.acceleration.x -= dt;
         this.acceleration.y += dt;
+
+        // when the velocity changes we are at the epoch of the curve, set lifespan to close to 0 so emote explodes
+        if (this.velocity.y > 0) {
+            this.lifespan = 0.1;
+        }
         this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
         // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
     }

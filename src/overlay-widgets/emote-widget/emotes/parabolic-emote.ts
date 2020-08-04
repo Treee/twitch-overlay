@@ -2,35 +2,6 @@ import { RenderableObject, Vector2 } from './emote-interfaces';
 
 export class ParabolicEmote extends RenderableObject {
 
-    code: string = '';
-    opacity: number = 1;
-    angularVelocityDegrees: number = 0;
-    degreesRotation: number = 0;
-    imageSrc: string[];
-    htmlElement: JQuery<HTMLElement>;
-    position: Vector2 = new Vector2();
-    velocity: Vector2 = new Vector2();
-    acceleration: Vector2 = new Vector2(0, -1);
-    lifespan: number = 0;
-    isBouncy: boolean = false;
-    canvasHeight: number = 1080;
-
-    constructor(size: Vector2, imageSrcs: string[]) {
-        super();
-        this.imageSrc = imageSrcs;
-        this.htmlElement = super.createHtmlElements('emote', imageSrcs, size);
-    }
-
-    initializeProperties(position: Vector2, velocity: Vector2, lifespan: number, angularVelocity: number, isBouncy: boolean, canvasHeight: number) {
-        this.position = position;
-        this.velocity = velocity;
-        this.lifespan = lifespan;
-        this.angularVelocityDegrees = angularVelocity;
-        this.isBouncy = isBouncy;
-        this.canvasHeight = canvasHeight;
-        this.translate(position.x, position.y);
-    }
-
     accelerate(dt: number): void {
         if (this.isBouncy && this.position.y > this.canvasHeight) {
             this.velocity.y = this.velocity.y * -1;

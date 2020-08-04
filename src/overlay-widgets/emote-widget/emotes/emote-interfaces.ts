@@ -12,10 +12,11 @@ export class Vector2 {
     }
 }
 
-export abstract class RenderableObject {
-    htmlElement?: JQuery<HTMLElement>;
-    imageSrc?: string[];
+export class RenderableObject {
+    htmlElement: JQuery<HTMLElement>;
+    imageSrc: string[];
 
+    emoteCodes: string[] = [];
 
     isMovable: boolean = false;
     position: Vector2 = new Vector2();
@@ -35,9 +36,16 @@ export abstract class RenderableObject {
     isBouncy: boolean = false;
     canvasHeight: number = 1080;
 
-    constructor() { }
+    isFirework: boolean = false;
+    isExploded: boolean = false;
+
+    constructor(imageSrcs: string[], size: Vector2) {
+        this.imageSrc = imageSrcs;
+        this.htmlElement = this.createHtmlElements('emote', imageSrcs, size);
+    }
 
     initializeRenderable(objectProperties: any) {
+        this.emoteCodes = objectProperties.emoteCodes;
         this.isMovable = objectProperties.isMoveable;
         this.position = objectProperties.position;
         this.velocity = objectProperties.velocity;
@@ -51,6 +59,9 @@ export abstract class RenderableObject {
         this.lifespan = objectProperties.lifespan;
         this.isBouncy = objectProperties.isBouncy;
         this.canvasHeight = objectProperties.canvasHeight;
+        this.isFirework = objectProperties.isFirework;
+        this.isExploded = objectProperties.isExploded;
+        this.translate(this.position.x, this.position.y);
     }
 
     createHtmlElements(cssClass: string, imageUrls: string[], size: Vector2): JQuery<HTMLElement> {
@@ -80,15 +91,15 @@ export abstract class RenderableObject {
         return `translate(${x}px, ${y}px)`;
     }
 
-    accelerate(dt: number): void {
-        if (this.isBouncy && this.position.y > this.canvasHeight) {
-            this.velocity.y = this.velocity.y * -1;
-        }
-        // this.acceleration.x -= dt;
-        this.acceleration.y += dt;
-        this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
-        // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
-    }
+    // accelerate(dt: number): void {
+    //     if (this.isBouncy && this.position.y > this.canvasHeight) {
+    //         this.velocity.y = this.velocity.y * -1;
+    //     }
+    //     // this.acceleration.x -= dt;
+    //     this.acceleration.y += dt;
+    //     this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
+    //     // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
+    // }
 
     rotate(degrees: number): string {
         return `rotate(${degrees}deg)`;

@@ -16,11 +16,11 @@ export class EmoteWidget {
 
     private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject {
         let drawable: RenderableObject = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        const randomAnimationType = randomNumberBetween(1, 5);
+        const randomAnimationType = randomNumberBetween(1, 1);
         if (randomAnimationType === 2) {
-            drawable = this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
+            drawable = this.emoteFactory.createRainingEmote(emoteCodes, this.getViewWidth());
         } if (randomAnimationType === 3) {
-            drawable = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
+            drawable = this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
         } if (randomAnimationType === 4) {
             drawable = this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
         } if (randomAnimationType === 5) {
@@ -96,7 +96,7 @@ export class EmoteWidget {
     }
 
     checkForExplodedEmotes() {
-        const explodedEmotes = this.emoteFactory.checkForExplodedEmotes(this.emotesToDraw);
+        const explodedEmotes = this.emoteFactory.checkForExplodedEmotes(this.emotesToDraw, this.getViewWidth());
         if (explodedEmotes.length > 0) {
             explodedEmotes.forEach((emote) => {
                 this.addEmoteToCanvasAndDrawables(emote);
