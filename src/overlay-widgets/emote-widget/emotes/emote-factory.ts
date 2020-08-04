@@ -162,7 +162,7 @@ export class EmoteFactory {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
         const xVelocityDirection = randomNumberBetween(1, 10) % 2 === 0 ? 1 : -1;
 
-        const randomVelocity = new Vector2(randomNumberBetweenDecimals(0.3, 1.7) * xVelocityDirection, randomNumberBetweenDecimals(2.2, 6.5) * -1);
+        const randomVelocity = new Vector2(randomNumberBetweenDecimals(0.3, 6.6) * xVelocityDirection, randomNumberBetweenDecimals(4.6, 8.2) * -1);
         let randomLifespan = randomNumberBetween(6, 7);
         if (isBouncy) {
             randomLifespan = randomLifespan * 2;
@@ -183,6 +183,7 @@ export class EmoteFactory {
             opacity: 1,
             lifespan: randomLifespan,
             canvasHeight,
+            canvasWidth,
             isBouncy,
             isFirework: false,
         };

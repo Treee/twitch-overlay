@@ -35,6 +35,7 @@ export class RenderableObject {
 
     isBouncy: boolean = false;
     canvasHeight: number = 1080;
+    canvasWidth: number = 1920;
 
     isFirework: boolean = false;
     isExploded: boolean = false;
@@ -59,6 +60,7 @@ export class RenderableObject {
         this.lifespan = objectProperties.lifespan;
         this.isBouncy = objectProperties.isBouncy;
         this.canvasHeight = objectProperties.canvasHeight;
+        this.canvasWidth = objectProperties.canvasWidth;
         this.isFirework = objectProperties.isFirework;
         this.isExploded = objectProperties.isExploded;
         this.translate(this.position.x, this.position.y);

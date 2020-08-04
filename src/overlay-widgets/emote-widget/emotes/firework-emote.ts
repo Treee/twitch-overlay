@@ -3,7 +3,7 @@ import { RenderableObject, Vector2 } from './emote-interfaces';
 export class FireworkEmote extends RenderableObject {
 
     accelerate(dt: number): void {
-        // this.acceleration.x -= dt;
+        // move the emote up along the y axis
         this.acceleration.y += dt;
 
         // when the velocity changes we are at the epoch of the curve, set lifespan to close to 0 so emote explodes
