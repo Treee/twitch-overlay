@@ -26,21 +26,6 @@ export class WavyEmote extends RenderableObject {
         this.translate(position.x, position.y);
     }
 
-    translate(x: number, y: number): string {
-        return `translate(${x}px, ${y}px)`;
-    }
-
-    rotate(degrees: number): string {
-        return `rotate(${degrees}deg)`;
-    }
-
-    applyTransform() {
-        const translation = this.translate(this.position.x, this.position.y);
-        const rotation = this.rotate(this.degreesRotation);
-        this.htmlElement.css('transform', `${translation} ${rotation}`);
-        this.htmlElement.css('opacity', `${this.opacity}`);
-    }
-
     calculateNextMoveFrame(dt: number): Vector2 {
         if (this.movementToggle) {
             this.movementTheta += dt;
@@ -55,22 +40,6 @@ export class WavyEmote extends RenderableObject {
         return new Vector2(x, y);
     }
 
-    calculateNextRotationFrame(dt: number): number {
-        let nextRotation = this.degreesRotation + this.angularVelocityDegrees
-        if (nextRotation > 360) {
-            nextRotation = nextRotation - 360;
-        }
-        return nextRotation;
-    }
-
-    isHidden(): boolean {
-        return this.lifespan < 0
-    }
-
-    modifyOpacity(dt: number): void {
-        this.opacity -= dt;
-    }
-
     doUpdate(dt: number): void {
         this.lifespan -= dt;
         if (!this.isHidden()) {
@@ -81,9 +50,4 @@ export class WavyEmote extends RenderableObject {
             this.modifyOpacity(dt);
         }
     }
-
-    draw(): void {
-        this.applyTransform();
-    }
-
 }

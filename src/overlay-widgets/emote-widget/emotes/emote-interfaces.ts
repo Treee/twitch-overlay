@@ -37,6 +37,22 @@ export abstract class RenderableObject {
 
     constructor() { }
 
+    initializeRenderable(objectProperties: any) {
+        this.isMovable = objectProperties.isMoveable;
+        this.position = objectProperties.position;
+        this.velocity = objectProperties.velocity;
+        this.isRotateable = objectProperties.isRotateable;
+        this.degreesRotation = objectProperties.degreesRotation;
+        this.angularVelocityDegrees = objectProperties.angularVelocityDegrees;
+        this.isAcceleratable = objectProperties.isAcceleratable;
+        this.acceleration = objectProperties.acceleration;
+        this.isHideable = objectProperties.isHideable;
+        this.opacity = objectProperties.opacity;
+        this.lifespan = objectProperties.lifespan;
+        this.isBouncy = objectProperties.isBouncy;
+        this.canvasHeight = objectProperties.canvasHeight;
+    }
+
     createHtmlElements(cssClass: string, imageUrls: string[], size: Vector2): JQuery<HTMLElement> {
         if (imageUrls.length > 1) {
             const element = $('<div></div>').addClass('grouped-emote');
@@ -87,10 +103,13 @@ export abstract class RenderableObject {
         }
     }
 
+
+    // default behavior is to move linearly basedo n the velocity
     calculateNextMoveFrame(dt: number): Vector2 {
         return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);
     }
 
+    // default behavior is to rotate around the center point
     calculateNextRotationFrame(dt: number): number {
         let nextRotation = this.degreesRotation + this.angularVelocityDegrees
         if (nextRotation > 360) {
@@ -112,6 +131,6 @@ export abstract class RenderableObject {
     }
 
     draw(): void {
-        throw new Error('draw is not implemented in abstract class RenderableObject');
+        this.applyTransform();
     }
 }

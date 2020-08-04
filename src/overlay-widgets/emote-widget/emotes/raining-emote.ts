@@ -24,39 +24,8 @@ export class RainingEmote extends RenderableObject {
         this.translate(position.x, position.y);
     }
 
-    translate(x: number, y: number): string {
-        return `translate(${x}px, ${y}px)`;
-    }
-
-    rotate(degrees: number): string {
-        return `rotate(${degrees}deg)`;
-    }
-
-    applyTransform() {
-        const translation = this.translate(this.position.x, this.position.y);
-        const rotation = this.rotate(this.degreesRotation);
-        this.htmlElement.css('transform', `${translation} ${rotation}`);
-        this.htmlElement.css('opacity', `${this.opacity}`);
-    }
-
     calculateNextMoveFrame(dt: number): Vector2 {
         return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);
-    }
-
-    calculateNextRotationFrame(dt: number): number {
-        let nextRotation = this.degreesRotation + this.angularVelocityDegrees
-        if (nextRotation > 360) {
-            nextRotation = nextRotation - 360;
-        }
-        return nextRotation;
-    }
-
-    isHidden(): boolean {
-        return this.lifespan < 0
-    }
-
-    modifyOpacity(dt: number): void {
-        this.opacity -= dt;
     }
 
     doUpdate(dt: number): void {
@@ -68,9 +37,5 @@ export class RainingEmote extends RenderableObject {
         if (this.lifespan < 1) {
             this.modifyOpacity(dt);
         }
-    }
-
-    draw(): void {
-        this.applyTransform();
     }
 }

@@ -31,14 +31,6 @@ export class ParabolicEmote extends RenderableObject {
         this.translate(position.x, position.y);
     }
 
-    translate(x: number, y: number): string {
-        return `translate(${x}px, ${y}px)`;
-    }
-
-    rotate(degrees: number): string {
-        return `rotate(${degrees}deg)`;
-    }
-
     accelerate(dt: number): void {
         if (this.isBouncy && this.position.y > this.canvasHeight) {
             this.velocity.y = this.velocity.y * -1;
@@ -49,32 +41,9 @@ export class ParabolicEmote extends RenderableObject {
         // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
     }
 
-    applyTransform() {
-        const translation = this.translate(this.position.x, this.position.y);
-        const rotation = this.rotate(this.degreesRotation);
-        this.htmlElement.css('transform', `${translation} ${rotation}`);
-        this.htmlElement.css('opacity', `${this.opacity}`);
-    }
-
     calculateNextMoveFrame(dt: number): Vector2 {
         this.accelerate(dt);
         return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);
-    }
-
-    calculateNextRotationFrame(dt: number): number {
-        let nextRotation = this.degreesRotation + this.angularVelocityDegrees
-        if (nextRotation > 360) {
-            nextRotation = nextRotation - 360;
-        }
-        return nextRotation;
-    }
-
-    isHidden(): boolean {
-        return this.lifespan < 0;
-    }
-
-    modifyOpacity(dt: number): void {
-        this.opacity -= dt;
     }
 
     doUpdate(dt: number): void {
@@ -87,9 +56,4 @@ export class ParabolicEmote extends RenderableObject {
             this.modifyOpacity(dt);
         }
     }
-
-    draw(): void {
-        this.applyTransform();
-    }
-
 }
