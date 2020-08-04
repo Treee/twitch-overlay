@@ -74,7 +74,7 @@ export class ParabolicEmote extends RenderableObject implements Movable, Rotatab
     }
 
     modifyOpacity(dt: number): void {
-        this.opacity -= dt * 2;
+        this.opacity -= dt;
     }
 
     doUpdate(dt: number): void {
