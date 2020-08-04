@@ -103,7 +103,6 @@ export abstract class RenderableObject {
         }
     }
 
-
     // default behavior is to move linearly basedo n the velocity
     calculateNextMoveFrame(dt: number): Vector2 {
         return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);

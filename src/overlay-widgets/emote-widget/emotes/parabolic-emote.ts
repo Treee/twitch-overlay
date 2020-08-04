@@ -43,7 +43,7 @@ export class ParabolicEmote extends RenderableObject {
 
     calculateNextMoveFrame(dt: number): Vector2 {
         this.accelerate(dt);
-        return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);
+        return super.calculateNextMoveFrame(dt);
     }
 
     doUpdate(dt: number): void {
