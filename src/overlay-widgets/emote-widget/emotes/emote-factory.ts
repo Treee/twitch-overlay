@@ -244,19 +244,8 @@ export class EmoteFactory {
         return newRenderable;
     }
 
-    checkForExplodedEmotes(activeEmotes: RenderableObject[], canvasWidth: number) {
-        let explodedEmotes: RainingEmote[] = [];
-        activeEmotes.forEach((emote: RenderableObject) => {
-            if (emote.isFirework && emote.opacity < 1 && !emote.isExploded) {
-                explodedEmotes = explodedEmotes.concat(this.explodeIntoEmotes(emote.emoteCodes[0], emote.position, canvasWidth));
-                emote.isExploded = true;
-            }
-        });
-        return explodedEmotes;
-    }
-
-    explodeIntoEmotes(emoteCode: string, position: Vector2, canvasWidth: number) {
-        const randomNumberOfEmoteParticles = randomNumberBetween(5, 12);
+    explodeIntoEmotes(emoteCode: string, position: Vector2): RenderableObject[] {
+        const randomNumberOfEmoteParticles = randomNumberBetween(4, 6);
         const emotesToReturn = [];
         for (let numEmotes = 0; numEmotes < randomNumberOfEmoteParticles; numEmotes++) {
             emotesToReturn.push(this.createStarburstChildEmote([emoteCode], position));

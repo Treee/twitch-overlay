@@ -145,4 +145,10 @@ export class RenderableObject {
     draw(): void {
         this.applyTransform();
     }
+
+    cleanUp(): void {
+        if (this.lifespan < 0) {
+            this.htmlElement.remove();
+        }
+    }
 }

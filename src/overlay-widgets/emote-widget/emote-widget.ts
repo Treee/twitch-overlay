@@ -80,28 +80,25 @@ export class EmoteWidget {
         this.emotesToDraw.forEach((emote) => {
             emote.doUpdate(dt);
             emote.draw();
+            emote.cleanUp();
+
+            if (emote.isFirework && emote.opacity < 1 && !emote.isExploded) {
+                emote.isExploded = true;
+                const explodedEmotes = this.emoteFactory.explodeIntoEmotes(emote.emoteCodes[0], emote.position);
+                explodedEmotes.forEach((newEmote) => {
+                    this.addEmoteToCanvasAndDrawables(newEmote);
+                });
+            }
         });
-        this.checkForExplodedEmotes();
+
         this.pruneRemainingEmotes();
     }
 
     pruneRemainingEmotes() {
         this.emotesToDraw = this.emotesToDraw.filter((emote: any) => {
-            if (emote?.lifespan < 0) {
-                emote.htmlElement.remove();
-            }
             return emote?.lifespan > 0;
         });
 
-    }
-
-    checkForExplodedEmotes() {
-        const explodedEmotes = this.emoteFactory.checkForExplodedEmotes(this.emotesToDraw, this.getViewWidth());
-        if (explodedEmotes.length > 0) {
-            explodedEmotes.forEach((emote) => {
-                this.addEmoteToCanvasAndDrawables(emote);
-            });
-        }
     }
 
 }
