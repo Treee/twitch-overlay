@@ -46,7 +46,7 @@ export class ParabolicEmote extends RenderableObject implements Movable, Rotatab
         // this.acceleration.x -= dt;
         this.acceleration.y += dt;
         this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
-        // console.log(`Accel: ${this.acceleration} Last Frame: ${this.lastFrameVelocity} Current: ${this.velocity}`);
+        // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
     }
 
     applyTransform() {
