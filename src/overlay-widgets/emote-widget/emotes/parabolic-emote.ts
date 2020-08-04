@@ -1,6 +1,6 @@
-import { RenderableObject, Movable, Rotatable, Hideable, Vector2, Acceleratable } from './emote-interfaces';
+import { RenderableObject, Vector2 } from './emote-interfaces';
 
-export class ParabolicEmote extends RenderableObject implements Movable, Rotatable, Hideable, Acceleratable {
+export class ParabolicEmote extends RenderableObject {
 
     code: string = '';
     opacity: number = 1;

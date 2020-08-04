@@ -12,43 +12,28 @@ export class Vector2 {
     }
 }
 
-export interface Movable {
-    position: Vector2;
-    velocity: Vector2;
-
-    translate(x: number, y: number): void;
-
-    calculateNextMoveFrame(dt: number): Vector2;
-
-}
-
-export interface Rotatable {
-    degreesRotation: number;
-    angularVelocityDegrees: number;
-
-    rotate(degrees: number): void;
-
-    calculateNextRotationFrame(dt: number): number;
-
-}
-
-export interface Hideable {
-    lifespan: number;
-    opacity: number; // between 0 and 1
-
-    isHidden(): boolean;
-    modifyOpacity(dt: number): void;
-}
-
-export interface Acceleratable {
-    acceleration: Vector2;
-
-    accelerate(dt: number): void;
-}
-
 export abstract class RenderableObject {
     htmlElement?: JQuery<HTMLElement>;
     imageSrc?: string[];
+
+
+    isMovable: boolean = false;
+    position: Vector2 = new Vector2();
+    velocity: Vector2 = new Vector2();
+
+    isRotateable: boolean = false;
+    degreesRotation: number = 0;
+    angularVelocityDegrees: number = 0;
+
+    isAcceleratable: boolean = false;
+    acceleration: Vector2 = new Vector2();
+
+    isHideable: boolean = true;
+    opacity: number = 1;
+    lifespan: number = 0;
+
+    isBouncy: boolean = false;
+    canvasHeight: number = 1080;
 
     constructor() { }
 
@@ -73,6 +58,53 @@ export abstract class RenderableObject {
         element.height(`${size.y}px`);
         element.css('background', `url("${imageSrc}")`);
         return element;
+    }
+
+    translate(x: number, y: number): string {
+        return `translate(${x}px, ${y}px)`;
+    }
+
+    accelerate(dt: number): void {
+        if (this.isBouncy && this.position.y > this.canvasHeight) {
+            this.velocity.y = this.velocity.y * -1;
+        }
+        // this.acceleration.x -= dt;
+        this.acceleration.y += dt;
+        this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
+        // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
+    }
+
+    rotate(degrees: number): string {
+        return `rotate(${degrees}deg)`;
+    }
+
+    applyTransform() {
+        if (this.htmlElement) {
+            const translation = this.translate(this.position.x, this.position.y);
+            const rotation = this.rotate(this.degreesRotation);
+            this.htmlElement.css('transform', `${translation} ${rotation}`);
+            this.htmlElement.css('opacity', `${this.opacity}`);
+        }
+    }
+
+    calculateNextMoveFrame(dt: number): Vector2 {
+        return new Vector2(this.position.x + this.velocity.x, this.position.y + this.velocity.y);
+    }
+
+    calculateNextRotationFrame(dt: number): number {
+        let nextRotation = this.degreesRotation + this.angularVelocityDegrees
+        if (nextRotation > 360) {
+            nextRotation = nextRotation - 360;
+        }
+        return nextRotation;
+    }
+
+    isHidden(): boolean {
+        return this.lifespan < 0
+    }
+
+    modifyOpacity(dt: number): void {
+        this.opacity -= dt;
     }
 
     doUpdate(dt: number): void {

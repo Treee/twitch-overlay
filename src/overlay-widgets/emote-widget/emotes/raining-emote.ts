@@ -1,6 +1,6 @@
-import { RenderableObject, Movable, Rotatable, Hideable, Vector2 } from './emote-interfaces';
+import { RenderableObject, Vector2 } from './emote-interfaces';
 
-export class RainingEmote extends RenderableObject implements Movable, Rotatable, Hideable {
+export class RainingEmote extends RenderableObject {
     opacity: number = 1;
     angularVelocityDegrees: number = 0;
     degreesRotation: number = 0;
