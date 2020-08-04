@@ -31,7 +31,9 @@ if (emoteWidgetConfig.botMode) {
     emoteWidget.startSimulation();
     setTimeout(() => {
         for (let i = 0; i < 500; i++) {
-            emoteWidget.addEmoteToContainer(['itsatreeHi']);
+            setTimeout(() => {
+                emoteWidget.addEmoteToContainer(['itsatreeHi']);
+            }, 150);
         }
     }, 3000);
     // setInterval(() => {

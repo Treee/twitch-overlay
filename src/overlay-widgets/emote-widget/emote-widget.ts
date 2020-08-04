@@ -86,7 +86,9 @@ export class EmoteWidget {
                 emote.isExploded = true;
                 const explodedEmotes = this.emoteFactory.explodeIntoEmotes(emote.emoteCodes[0], emote.position);
                 explodedEmotes.forEach((newEmote) => {
-                    this.addEmoteToCanvasAndDrawables(newEmote);
+                    setTimeout(() => {
+                        this.addEmoteToCanvasAndDrawables(newEmote);
+                    }, 150);
                 });
             }
         });

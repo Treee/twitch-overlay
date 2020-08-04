@@ -63,8 +63,8 @@ export class EmoteFactory {
         return url;
     }
 
-    private setUrlsandSize(emoteCodes: string[]): { urls: string[], size: Vector2 } {
-        const scalar = randomNumberBetween(1, 3);
+    private setUrlsandSize(emoteCodes: string[], maxScale: number = 3): { urls: string[], size: Vector2 } {
+        const scalar = randomNumberBetween(1, maxScale);
         let size = new Vector2(28, 28); //default values
         const urls: string[] = [];
         emoteCodes.forEach((emoteCode) => {
@@ -221,7 +221,7 @@ export class EmoteFactory {
     }
 
     createStarburstChildEmote(emoteCodes: string[], position: Vector2): RenderableObject {
-        const urlsAndSize = this.setUrlsandSize(emoteCodes);
+        const urlsAndSize = this.setUrlsandSize(emoteCodes, 2);
         const newRenderable = new RainingEmote(urlsAndSize.urls, urlsAndSize.size);
         const theta = randomRadianAngle(); // some random number between 0 and 2pi
         const renderableProperties = {
@@ -245,7 +245,7 @@ export class EmoteFactory {
     }
 
     explodeIntoEmotes(emoteCode: string, position: Vector2): RenderableObject[] {
-        const randomNumberOfEmoteParticles = randomNumberBetween(4, 6);
+        const randomNumberOfEmoteParticles = randomNumberBetween(3, 5);
         const emotesToReturn = [];
         for (let numEmotes = 0; numEmotes < randomNumberOfEmoteParticles; numEmotes++) {
             emotesToReturn.push(this.createStarburstChildEmote([emoteCode], position));
