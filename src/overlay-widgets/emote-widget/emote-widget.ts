@@ -16,7 +16,7 @@ export class EmoteWidget {
 
     private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject {
         let drawable: RenderableObject = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        const randomAnimationType = randomNumberBetween(5, 5);
+        const randomAnimationType = randomNumberBetween(1, 5);
         if (randomAnimationType === 2) {
             drawable = this.emoteFactory.createRainingEmote(emoteCodes, this.getViewWidth());
         } if (randomAnimationType === 3) {

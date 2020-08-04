@@ -1,22 +1,16 @@
 import { RenderableObject, Vector2 } from './emote-interfaces';
+import { randomNumberBetween } from '../../../helpers/math-helper';
 
 export class WavyEmote extends RenderableObject {
 
     movementTheta: number = 0;
-    movementToggle: boolean = true;
+    randomAmplitude: number = randomNumberBetween(2, 5);
 
     calculateNextMoveFrame(dt: number): Vector2 {
-        if (this.movementToggle) {
-            this.movementTheta += dt;
-        } else {
-            this.movementTheta -= dt;
-        }
-        if (this.movementTheta > 1 || this.movementTheta < -1) {
-            this.movementToggle = !this.movementToggle;
-        }
-        const x = this.position.x + (this.velocity.x * Math.cos(this.movementTheta));
-        const y = this.position.y + (this.velocity.y * Math.sin(this.movementTheta));
-        return new Vector2(x, y);
+        this.movementTheta += dt;
+
+        this.velocity.y = this.randomAmplitude * Math.sin(this.movementTheta);
+        return super.calculateNextMoveFrame(dt);
     }
 
     doUpdate(dt: number): void {

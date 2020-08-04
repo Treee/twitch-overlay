@@ -127,8 +127,8 @@ export class EmoteFactory {
 
     createWavyEmote(emoteCodes: string[], canvasWidth: number, canvasHeight: number): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
-        const randomVelocity = new Vector2(randomNumberBetween(1, 5), randomNumberBetween(1, 5));
-        const randomPosition = new Vector2(0, randomNumberBetween(0, canvasHeight - urlsAndSize.size.y));
+        const randomVelocity = new Vector2(randomNumberBetween(3, 5), randomNumberBetween(3, 5));
+        const randomPosition = new Vector2(0, randomNumberBetween(0, canvasHeight / 2 + canvasHeight / 4));
 
         const max = 2;
         const toggle = randomNumberBetween(1, max); //left
