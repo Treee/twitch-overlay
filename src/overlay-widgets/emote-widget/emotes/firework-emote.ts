@@ -10,7 +10,6 @@ export class FireworkEmote extends RenderableObject implements Movable, Rotatabl
     htmlElement: JQuery<HTMLElement>;
     position: Vector2 = new Vector2();
     velocity: Vector2 = new Vector2();
-    lastFrameVelocity: Vector2 = new Vector2();
     acceleration: Vector2 = new Vector2(0, -1);
     lifespan: number = 0;
     isExploded: boolean = false;
@@ -41,9 +40,8 @@ export class FireworkEmote extends RenderableObject implements Movable, Rotatabl
     accelerate(dt: number): void {
         // this.acceleration.x -= dt;
         this.acceleration.y += dt;
-        this.lastFrameVelocity = new Vector2(this.velocity.x, this.velocity.y);
         this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
-        // console.log(`Accel: ${this.acceleration} Last Frame: ${this.lastFrameVelocity} Current: ${this.velocity}`);
+        // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
     }
 
     applyTransform() {
