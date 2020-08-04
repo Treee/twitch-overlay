@@ -220,14 +220,15 @@ export class EmoteFactory {
         return newRenderable;
     }
 
-    createStarburstChildEmote(emoteCodes: string[], position: Vector2, velocity: Vector2): RenderableObject {
+    createStarburstChildEmote(emoteCodes: string[], position: Vector2): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
         const newRenderable = new RainingEmote(urlsAndSize.urls, urlsAndSize.size);
+        const theta = randomRadianAngle(); // some random number between 0 and 2pi
         const renderableProperties = {
             emoteCodes,
             isMovable: true,
             position: position,
-            velocity: velocity,
+            velocity: new Vector2(Math.cos(theta), Math.sin(theta)),
             isRotateable: true,
             degreesRotation: 0,
             angularVelocityDegrees: randomNumberBetween(1, 4),
@@ -235,7 +236,7 @@ export class EmoteFactory {
             acceleration: new Vector2(),
             isHideable: true,
             opacity: 1,
-            lifespan: randomNumberBetween(1, 6),
+            lifespan: randomNumberBetweenDecimals(1.1, 2.2),
             isBouncy: false,
             isFirework: false,
         };
@@ -245,8 +246,8 @@ export class EmoteFactory {
 
     checkForExplodedEmotes(activeEmotes: RenderableObject[], canvasWidth: number) {
         let explodedEmotes: RainingEmote[] = [];
-        activeEmotes.forEach((emote: any) => {
-            if (emote instanceof FireworkEmote && emote.opacity < 1 && !emote.isExploded) {
+        activeEmotes.forEach((emote: RenderableObject) => {
+            if (emote.isFirework && emote.opacity < 1 && !emote.isExploded) {
                 explodedEmotes = explodedEmotes.concat(this.explodeIntoEmotes(emote.emoteCodes[0], emote.position, canvasWidth));
                 emote.isExploded = true;
             }
@@ -258,9 +259,7 @@ export class EmoteFactory {
         const randomNumberOfEmoteParticles = randomNumberBetween(5, 12);
         const emotesToReturn = [];
         for (let numEmotes = 0; numEmotes < randomNumberOfEmoteParticles; numEmotes++) {
-            const theta = randomRadianAngle(); // some random number between 0 and 2pi
-            const fireworkEmote = this.createStarburstChildEmote([emoteCode], position, new Vector2(Math.cos(theta), Math.sin(theta)));
-            emotesToReturn.push(fireworkEmote);
+            emotesToReturn.push(this.createStarburstChildEmote([emoteCode], position));
         }
         return emotesToReturn;
     }
