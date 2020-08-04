@@ -98,7 +98,6 @@ export class EmoteWidget {
         this.emotesToDraw = this.emotesToDraw.filter((emote: any) => {
             return emote?.lifespan > 0;
         });
-
     }
 
 }

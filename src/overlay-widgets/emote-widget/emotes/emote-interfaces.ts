@@ -93,16 +93,6 @@ export class RenderableObject {
         return `translate(${x}px, ${y}px)`;
     }
 
-    // accelerate(dt: number): void {
-    //     if (this.isBouncy && this.position.y > this.canvasHeight) {
-    //         this.velocity.y = this.velocity.y * -1;
-    //     }
-    //     // this.acceleration.x -= dt;
-    //     this.acceleration.y += dt;
-    //     this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
-    //     // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
-    // }
-
     rotate(degrees: number): string {
         return `rotate(${degrees}deg)`;
     }
