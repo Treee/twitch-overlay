@@ -29,11 +29,11 @@ if (!emoteWidgetConfig.botMode) {
 if (emoteWidgetConfig.botMode) {
     new EmoteWidgetClient(websocketRoute, emoteWidget);
     emoteWidget.startSimulation();
-    setTimeout(() => {
-        for (let i = 0; i < 500; i++) {
-            emoteWidget.addEmoteToContainer(['itsatreeHi']);
-        }
-    }, 3000);
+    // setTimeout(() => {
+    //     for (let i = 0; i < 500; i++) {
+    //         emoteWidget.addEmoteToContainer(['itsatreeHi']);
+    //     }
+    // }, 3000);
     // setInterval(() => {
     //     emoteWidget.addEmoteToContainer(['itsatreeHi']);
     // }, 500);
