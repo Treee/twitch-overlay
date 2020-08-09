@@ -227,7 +227,7 @@ export class EmoteFactory {
         const renderableProperties = {
             emoteCodes,
             isMovable: true,
-            position: position,
+            position: new Vector2(position.x, position.y),
             velocity: new Vector2(Math.cos(theta), Math.sin(theta)),
             isRotateable: true,
             degreesRotation: 0,

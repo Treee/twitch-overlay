@@ -53,9 +53,7 @@ export class EmoteWidget {
     addEmoteToCanvasAndDrawables(drawable: RenderableObject) {
         setTimeout(() => {
             if (drawable.htmlElement) {
-                if (drawable.htmlElement) {
-                    $(`.emote-container`).append(drawable.htmlElement);
-                }
+                $(`.emote-container`).append(drawable.htmlElement);
             }
             this.emotesToDraw.push(drawable);
         }, randomNumberBetween(100, 300));
