@@ -21,26 +21,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Setup SSH Keys and known_hosts
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
     - name: install dependencies
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: npm ci
     - name: build and deploy
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
         npm run build
-        cd dist
+        cd build
         git init
         git config --global user.email "<>" && git config --global user.name "Build Pipeline"
         git add .
         git commit -m "deploy"
-        git push -f git@github.com:Treee/tech-widget-overlay.git master:gh-pages
+        git push -f git@github.com:Treee/twitch-overlay.git master:gh-pages
