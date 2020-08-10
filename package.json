@@ -10,8 +10,7 @@
     "copy-root-files": "copyfiles -f README.md LICENSE Arena.ttf .gitignore build",
     "build-emote-widget": "browserify src/overlay-widgets/emote-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/emote-widget/emote-widget-bundle.js",
     "build-physics-widget": "browserify src/overlay-widgets/physics/physics-engine.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/physics/physics-bundle.js",
-    "build-keyboard-widget": "browserify src/overlay-widgets/keyboard-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/keyboard-widget/keyboard-bundle.js",
-    "deploy": "npm run build && gh-pages --dotfiles --dist build"
+    "build-keyboard-widget": "browserify src/overlay-widgets/keyboard-widget/index.ts -p [ tsify --noImplicityAny ] > build/overlay-widgets/keyboard-widget/keyboard-bundle.js"
   },
   "repository": {
     "type": "git",
@@ -35,7 +34,6 @@
     "@types/ws": "^6.0.3",
     "browserify": "^16.5.0",
     "copyfiles": "^2.1.1",
-    "gh-pages": "^2.2.0",
     "jasmine": "^3.5.0",
     "ts-node": "^8.4.1",
     "tsify": "^4.0.1",
