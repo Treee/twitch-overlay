@@ -59,7 +59,7 @@ export class EmoteWidgetClient {
     onMessage(event: any) {
         // console.log(`[message] Data received from server: ${event.data}`);
         const eventData = JSON.parse(event.data);
-        if (eventData.type === SocketMessageEnum.CheckEmoteCache) { return; }
+        if (eventData.type === SocketMessageEnum.PING) { return; }
         else if (eventData.type === SocketMessageEnum.CheckEmoteCache) {
             this.emoteWidget?.emoteFactory.setMasterEmoteList(eventData.data);
         }
