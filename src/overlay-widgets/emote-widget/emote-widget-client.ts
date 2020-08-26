@@ -5,7 +5,7 @@ export enum SocketMessageEnum {
     FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys,
     EmoteOnlyModeActive, EmoteOnlyModeDisabled, ChatCleared, Bits, Banned,
     FirstTimeSubscription, MysteryGiftSubscription, GiftSubscription, ReSubscription,
-    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade, Raided, Hosted
+    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade, Raided, Hosted, PING, PONG, TEST
 }
 
 enum ComboType {
@@ -52,15 +52,15 @@ export class EmoteWidgetClient {
         };
         this.socket?.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));
         this.pingInterval = setInterval(() => {
-            this.socket?.send('PING');
+            this.socket?.send(JSON.stringify({ type: SocketMessageEnum.PING, data: {} }));
         }, 45 * 1000); // ping the server on startup every 45 seconds to keep the connection alive
     }
 
     onMessage(event: any) {
         // console.log(`[message] Data received from server: ${event.data}`);
-        if (event.data === 'PONG') { return; }
         const eventData = JSON.parse(event.data);
-        if (eventData.type === SocketMessageEnum.CheckEmoteCache) {
+        if (eventData.type === SocketMessageEnum.CheckEmoteCache) { return; }
+        else if (eventData.type === SocketMessageEnum.CheckEmoteCache) {
             this.emoteWidget?.emoteFactory.setMasterEmoteList(eventData.data);
         }
         else if (eventData.type === SocketMessageEnum.FoundEmotes) {
