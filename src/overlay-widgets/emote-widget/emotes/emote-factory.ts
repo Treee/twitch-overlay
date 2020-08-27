@@ -220,6 +220,17 @@ export class EmoteFactory {
         return newRenderable;
     }
 
+    createStarburstEffect(emoteCodes: string[], canvasWidth: number, canvasHeight: number, position: Vector2 | null = null, numStarburstChildren = 10): RenderableObject[] {
+        const starburst: RenderableObject[] = [];
+        for (let numEmotes = 0; numEmotes < numStarburstChildren; numEmotes++) {
+            if (!position) {
+                position = new Vector2(randomNumberBetween(0, canvasWidth), randomNumberBetween(0, canvasHeight));
+            }
+            starburst.push(this.createStarburstChildEmote(emoteCodes, position));
+        }
+        return starburst;
+    }
+
     createStarburstChildEmote(emoteCodes: string[], position: Vector2): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes, 2);
         const newRenderable = new RainingEmote(urlsAndSize.urls, urlsAndSize.size);
@@ -228,7 +239,7 @@ export class EmoteFactory {
             emoteCodes,
             isMovable: true,
             position: new Vector2(position.x, position.y),
-            velocity: new Vector2(Math.cos(theta), Math.sin(theta)),
+            velocity: new Vector2(Math.cos(theta) * randomNumberBetweenDecimals(0.7, 2.5), Math.sin(theta) * randomNumberBetweenDecimals(0.7, 2.5)),
             isRotateable: true,
             degreesRotation: 0,
             angularVelocityDegrees: randomNumberBetween(1, 4),
@@ -246,10 +257,7 @@ export class EmoteFactory {
 
     explodeIntoEmotes(emoteCode: string, position: Vector2): RenderableObject[] {
         const randomNumberOfEmoteParticles = randomNumberBetween(3, 5);
-        const emotesToReturn = [];
-        for (let numEmotes = 0; numEmotes < randomNumberOfEmoteParticles; numEmotes++) {
-            emotesToReturn.push(this.createStarburstChildEmote([emoteCode], position));
-        }
+        const emotesToReturn = this.createStarburstEffect([emoteCode], -1, -1, position, randomNumberOfEmoteParticles);
         return emotesToReturn;
     }
 

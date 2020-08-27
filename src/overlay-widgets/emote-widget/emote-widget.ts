@@ -1,5 +1,5 @@
 import { EmoteWidgetConfig } from './emote-widget-config';
-import { RenderableObject } from './emotes/emote-interfaces';
+import { RenderableObject, Vector2 } from './emotes/emote-interfaces';
 import { randomNumberBetween } from '../../helpers/math-helper';
 
 import { EmoteFactory } from './emotes/emote-factory';
@@ -14,17 +14,19 @@ export class EmoteWidget {
         this.emoteFactory = emoteFactory;
     }
 
-    private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject {
-        let drawable: RenderableObject = this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        const randomAnimationType = randomNumberBetween(1, 5);
+    private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject[] {
+        let drawable: RenderableObject[] = [this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+        const randomAnimationType = randomNumberBetween(1, 6);
         if (randomAnimationType === 2) {
-            drawable = this.emoteFactory.createRainingEmote(emoteCodes, this.getViewWidth());
-        } if (randomAnimationType === 3) {
-            drawable = this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        } if (randomAnimationType === 4) {
-            drawable = this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight());
-        } if (randomAnimationType === 5) {
-            drawable = this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight(), true);
+            drawable = [this.emoteFactory.createRainingEmote(emoteCodes, this.getViewWidth())];
+        } else if (randomAnimationType === 3) {
+            drawable = [this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+        } else if (randomAnimationType === 4) {
+            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+        } else if (randomAnimationType === 5) {
+            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight(), true)];
+        } else if (randomAnimationType === 6) {
+            drawable = this.emoteFactory.createStarburstEffect(emoteCodes, this.getViewWidth(), this.getViewHeight(), null, randomNumberBetween(5, 10));
         }
         return drawable;
     }
@@ -37,7 +39,9 @@ export class EmoteWidget {
                     emote = this.emoteFactory.getRandomEmote().code;
                 }
                 const drawableEmote = this.getDrawableEmoteByCode([emote]);
-                this.addEmoteToCanvasAndDrawables(drawableEmote);
+                drawableEmote.forEach((emote) => {
+                    this.addEmoteToCanvasAndDrawables(emote);
+                });
             });
         }
     }
@@ -46,7 +50,9 @@ export class EmoteWidget {
         let numEmotes = randomNumberBetween(1, 2);
         for (let index = 0; index < numEmotes; index++) {
             const drawableEmote = this.getDrawableEmoteByCode(emoteCodes);
-            this.addEmoteToCanvasAndDrawables(drawableEmote);
+            drawableEmote.forEach((emote) => {
+                this.addEmoteToCanvasAndDrawables(emote);
+            });
         }
     }
 
@@ -75,6 +81,7 @@ export class EmoteWidget {
     }
 
     oneLoop(dt: number) {
+        let explodedEmotes: any[] = [];
         this.emotesToDraw.forEach((emote) => {
             emote.doUpdate(dt);
             emote.draw();
@@ -82,11 +89,12 @@ export class EmoteWidget {
 
             if (emote.isFirework && emote.opacity < 1 && !emote.isExploded) {
                 emote.isExploded = true;
-                const explodedEmotes = this.emoteFactory.explodeIntoEmotes(emote.emoteCodes[0], emote.position);
-                explodedEmotes.forEach((newEmote) => {
-                    this.addEmoteToCanvasAndDrawables(newEmote);
-                });
+                const newPosition = new Vector2(emote.position.x, emote.position.y);
+                explodedEmotes = explodedEmotes.concat(this.emoteFactory.explodeIntoEmotes(emote.emoteCodes[0], newPosition));
             }
+        });
+        explodedEmotes.forEach((newEmote) => {
+            this.addEmoteToCanvasAndDrawables(newEmote);
         });
 
         this.pruneRemainingEmotes();

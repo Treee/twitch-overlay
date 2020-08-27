@@ -63,7 +63,7 @@ export class RenderableObject {
         this.canvasWidth = objectProperties.canvasWidth;
         this.isFirework = objectProperties.isFirework;
         this.isExploded = objectProperties.isExploded;
-        this.translate(this.position.x, this.position.y);
+        this.applyTransform();
     }
 
     createHtmlElements(cssClass: string, imageUrls: string[], size: Vector2): JQuery<HTMLElement> {

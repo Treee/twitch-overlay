@@ -18,8 +18,6 @@ if (emoteWidgetConfig.channel === 'itsatreee') {
     websocketRoute = 'ws://localhost:8446';
 }
 
-const serverUrl = websocketRoute;
-
 if (!emoteWidgetConfig.botMode) {
     emoteWidget.startSimulation();
     setInterval(() => {
@@ -36,6 +34,6 @@ if (emoteWidgetConfig.botMode) {
     // }, 3000);
     // setInterval(() => {
     //     emoteWidget.addEmoteToContainer(['itsatreeHi']);
-    // }, 500);
+    // }, 1000);
 
 }

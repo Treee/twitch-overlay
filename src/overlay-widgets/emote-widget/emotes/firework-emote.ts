@@ -8,7 +8,7 @@ export class FireworkEmote extends RenderableObject {
 
         // when the velocity changes we are at the epoch of the curve, set lifespan to close to 0 so emote explodes
         if (this.velocity.y > 0) {
-            this.lifespan = -1;
+            this.lifespan /= 2;
         }
         this.velocity = new Vector2(this.velocity.x + (this.acceleration.x * dt), this.velocity.y + (this.acceleration.y * dt));
         // console.log(`Accel: ${this.acceleration} Current: ${this.velocity}`);
