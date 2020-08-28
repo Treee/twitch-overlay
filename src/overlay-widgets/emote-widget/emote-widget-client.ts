@@ -134,13 +134,13 @@ export class EmoteWidgetClient {
             }
         }
         else if (eventData.type === SocketMessageEnum.Hosted) {
-            for (let index = 0; index < Math.max(eventData.data.viewers, 200); index++) {
+            for (let index = 0; index < Math.max(eventData.data.viewers, 100); index++) {
                 const randomEmote = this.emoteWidget?.emoteFactory.getRandomEmote();
-                this.emoteWidget?.addEmoteToContainer(['TombRaid', 'TombRaid', 'itsatrEeCool', 'itsatrEeToast', randomEmote.code]);
+                this.emoteWidget?.addEmoteToContainer(['TombRaid', randomEmote.code]);
             }
         }
         else if (eventData.type === SocketMessageEnum.Raided) {
-            for (let index = 0; index < Math.max(eventData.data.viewers, 200); index++) {
+            for (let index = 0; index < Math.max(eventData.data.viewers, 100); index++) {
                 this.emoteWidget?.addEmoteToContainer(['TombRaid', 'TombRaid']);
             }
         }
