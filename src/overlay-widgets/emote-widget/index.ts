@@ -32,8 +32,8 @@ if (emoteWidgetConfig.botMode) {
     //         emoteWidget.addEmoteToContainer(['itsatreeHi']);
     //     }
     // }, 3000);
-    // setInterval(() => {
-    //     emoteWidget.addEmoteToContainer(['itsatreeHi']);
-    // }, 1000);
+    setInterval(() => {
+        emoteWidget.addEmoteToContainer(['itsatreeHi']);
+    }, 1000);
 
 }

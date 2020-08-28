@@ -6,6 +6,7 @@ import { ParabolicEmote } from "./parabolic-emote";
 
 import { Vector2, RenderableObject } from "./emote-interfaces";
 import { randomNumberBetween, randomNumberBetweenDecimals, RADIANS, randomRadianAngle } from '../../../helpers/math-helper';
+import { getViewWidth, getViewHeight } from "../../../helpers/html-document-helper";
 
 export class EmoteFactory {
 
@@ -102,13 +103,13 @@ export class EmoteFactory {
         return new Vector2(emoteWidth, emoteHeight);
     }
 
-    createRainingEmote(emoteCodes: string[], canvasWidth: number): RenderableObject {
+    createRainingEmote(emoteCodes: string[]): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
         const newRenderable = new RainingEmote(urlsAndSize.urls, urlsAndSize.size);
         const renderableProperties = {
             emoteCodes,
             isMovable: true,
-            position: new Vector2(randomNumberBetween(0, canvasWidth), 0),
+            position: new Vector2(randomNumberBetween(0, getViewWidth()), 0),
             velocity: new Vector2(0, randomNumberBetween(1, 5)),
             isRotateable: true,
             degreesRotation: 0,
@@ -125,15 +126,15 @@ export class EmoteFactory {
         return newRenderable;
     }
 
-    createWavyEmote(emoteCodes: string[], canvasWidth: number, canvasHeight: number): RenderableObject {
+    createWavyEmote(emoteCodes: string[]): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
         const randomVelocity = new Vector2(randomNumberBetween(3, 5), randomNumberBetween(3, 5));
-        const randomPosition = new Vector2(0, randomNumberBetween(0, canvasHeight / 2 + canvasHeight / 4));
+        const randomPosition = new Vector2(0, randomNumberBetween(0, getViewHeight() / 2 + getViewHeight() / 4));
 
         const max = 2;
         const toggle = randomNumberBetween(1, max); //left
         if (toggle % max === 1) { // right
-            randomPosition.x = canvasWidth;
+            randomPosition.x = getViewWidth();
             randomVelocity.x *= -1;
         }
 
@@ -158,7 +159,7 @@ export class EmoteFactory {
         return newRenderable;
     }
 
-    createParabolicEmote(emoteCodes: string[], canvasWidth: number, canvasHeight: number, isBouncy: boolean = false): RenderableObject {
+    createParabolicEmote(emoteCodes: string[], isBouncy: boolean = false): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
         const xVelocityDirection = randomNumberBetween(1, 10) % 2 === 0 ? 1 : -1;
 
@@ -172,7 +173,7 @@ export class EmoteFactory {
         const renderableProperties = {
             emoteCodes,
             isMovable: true,
-            position: new Vector2(canvasWidth / 2, canvasHeight),
+            position: new Vector2(getViewWidth() / 2, getViewHeight()),
             velocity: randomVelocity,
             isRotateable: true,
             degreesRotation: 0,
@@ -182,8 +183,8 @@ export class EmoteFactory {
             isHideable: true,
             opacity: 1,
             lifespan: randomLifespan,
-            canvasHeight,
-            canvasWidth,
+            canvasHeight: getViewHeight(),
+            canvasWidth: getViewWidth(),
             isBouncy,
             isFirework: false,
         };
@@ -191,11 +192,11 @@ export class EmoteFactory {
         return newRenderable;
     }
 
-    createFireworkEmote(emoteCodes: string[], canvasWidth: number, canvasHeight: number): RenderableObject {
+    createFireworkEmote(emoteCodes: string[]): RenderableObject {
         const urlsAndSize = this.setUrlsandSize(emoteCodes);
-        const randomPosition = new Vector2(randomNumberBetween(0, canvasWidth), canvasHeight);
+        const randomPosition = new Vector2(randomNumberBetween(0, getViewWidth()), getViewHeight());
 
-        const xVelocityDirection = randomPosition.x < canvasWidth / 2 ? 1 : -1;
+        const xVelocityDirection = randomPosition.x < getViewWidth() / 2 ? 1 : -1;
 
         const randomVelocity = new Vector2(randomNumberBetweenDecimals(0.3, 2.7) * xVelocityDirection, randomNumberBetweenDecimals(4.6, 8.2) * -1);
 
@@ -213,18 +214,18 @@ export class EmoteFactory {
             isHideable: true,
             opacity: 1,
             lifespan: 500,
-            canvasHeight,
+            canvasHeight: getViewHeight(),
             isFirework: true,
         };
         newRenderable.initializeRenderable(renderableProperties);
         return newRenderable;
     }
 
-    createStarburstEffect(emoteCodes: string[], canvasWidth: number, canvasHeight: number, position: Vector2 | null = null, numStarburstChildren = 10): RenderableObject[] {
+    createStarburstEffect(emoteCodes: string[], position: Vector2 | null = null, numStarburstChildren = 10): RenderableObject[] {
         const starburst: RenderableObject[] = [];
         for (let numEmotes = 0; numEmotes < numStarburstChildren; numEmotes++) {
             if (!position) {
-                position = new Vector2(randomNumberBetween(0, canvasWidth), randomNumberBetween(0, canvasHeight));
+                position = new Vector2(randomNumberBetween(0, getViewWidth()), randomNumberBetween(0, getViewHeight()));
             }
             starburst.push(this.createStarburstChildEmote(emoteCodes, position));
         }
@@ -257,7 +258,7 @@ export class EmoteFactory {
 
     explodeIntoEmotes(emoteCode: string, position: Vector2): RenderableObject[] {
         const randomNumberOfEmoteParticles = randomNumberBetween(3, 5);
-        const emotesToReturn = this.createStarburstEffect([emoteCode], -1, -1, position, randomNumberOfEmoteParticles);
+        const emotesToReturn = this.createStarburstEffect([emoteCode], position, randomNumberOfEmoteParticles);
         return emotesToReturn;
     }
 

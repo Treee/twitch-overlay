@@ -15,18 +15,18 @@ export class EmoteWidget {
     }
 
     private getDrawableEmoteByCode(emoteCodes: string[]): RenderableObject[] {
-        let drawable: RenderableObject[] = [this.emoteFactory.createFireworkEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+        let drawable: RenderableObject[] = [this.emoteFactory.createFireworkEmote(emoteCodes)];
         const randomAnimationType = randomNumberBetween(1, 6);
         if (randomAnimationType === 2) {
-            drawable = [this.emoteFactory.createRainingEmote(emoteCodes, this.getViewWidth())];
+            drawable = [this.emoteFactory.createRainingEmote(emoteCodes)];
         } else if (randomAnimationType === 3) {
-            drawable = [this.emoteFactory.createWavyEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+            drawable = [this.emoteFactory.createWavyEmote(emoteCodes)];
         } else if (randomAnimationType === 4) {
-            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight())];
+            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes)];
         } else if (randomAnimationType === 5) {
-            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes, this.getViewWidth(), this.getViewHeight(), true)];
+            drawable = [this.emoteFactory.createParabolicEmote(emoteCodes, true)];
         } else if (randomAnimationType === 6) {
-            drawable = this.emoteFactory.createStarburstEffect(emoteCodes, this.getViewWidth(), this.getViewHeight(), null, randomNumberBetween(5, 10));
+            drawable = this.emoteFactory.createStarburstEffect(emoteCodes, null, randomNumberBetween(5, 10));
         }
         return drawable;
     }
@@ -63,14 +63,6 @@ export class EmoteWidget {
             }
             this.emotesToDraw.push(drawable);
         }, randomNumberBetween(100, 300));
-    }
-
-    private getViewHeight() {
-        return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    }
-
-    private getViewWidth() {
-        return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     }
 
     startSimulation() {
