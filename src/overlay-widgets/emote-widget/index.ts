@@ -25,15 +25,15 @@ if (!emoteWidgetConfig.botMode) {
     }, 2500);
 }
 if (emoteWidgetConfig.botMode) {
-    new EmoteWidgetClient(websocketRoute, emoteWidget);
+    new EmoteWidgetClient(websocketRoute, emoteWidget, emoteWidgetConfig);
     emoteWidget.startSimulation();
     // setTimeout(() => {
     //     for (let i = 0; i < 500; i++) {
     //         emoteWidget.addEmoteToContainer(['itsatreeHi']);
     //     }
     // }, 3000);
-    setInterval(() => {
-        emoteWidget.addEmoteToContainer(['itsatreeHi']);
-    }, 1000);
+    // setInterval(() => {
+    //     emoteWidget.addEmoteToContainer(['itsatreeHi']);
+    // }, 1000);
 
 }

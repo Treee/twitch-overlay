@@ -1,11 +1,42 @@
 import { EmoteWidget } from './emote-widget';
 import { calculateExponentialBackoffInMilliseconds, randomNumberBetween } from '../../helpers/math-helper';
+import { EmoteWidgetConfig } from './emote-widget-config';
 
 export enum SocketMessageEnum {
-    FoundEmotes, CheckEmoteCache, EmoteCodes, HandleInput, HookInput, PressedKeys,
-    EmoteOnlyModeActive, EmoteOnlyModeDisabled, ChatCleared, Bits, Banned,
-    FirstTimeSubscription, MysteryGiftSubscription, GiftSubscription, ReSubscription,
-    GiftSubscriptionUpgrade, MysteryGiftSubscriptionUpgrade, Raided, Hosted, PING, PONG, TEST
+    ClientRegister,
+    PING,
+    PONG,
+    TEST,
+    FoundEmotes,
+    CheckEmoteCache,
+    EmoteCodes,
+    HandleInput,
+    HookInput,
+    PressedKeys,
+    EmoteOnlyModeActive,
+    EmoteOnlyModeDisabled,
+    ChatCleared,
+    Bits,
+    Banned,
+    FirstTimeSubscription,
+    MysteryGiftSubscription,
+    GiftSubscription,
+    ReSubscription,
+    GiftSubscriptionUpgrade,
+    MysteryGiftSubscriptionUpgrade,
+    Raided,
+    Hosted,
+    Follow,
+    Extra1,
+    Extra2,
+    Extra3,
+    Extra4,
+    Extra5,
+    Extra6,
+    Extra7,
+    Extra8,
+    Extra9,
+    Extra10,
 }
 
 enum ComboType {
@@ -16,6 +47,7 @@ export class EmoteWidgetClient {
 
     socket: WebSocket | undefined;
     emoteWidget: EmoteWidget;
+    emoteWidgetConfig: EmoteWidgetConfig;
 
     pingInterval: any;
     reconnectInterval: any;
@@ -24,9 +56,10 @@ export class EmoteWidgetClient {
 
     serverUrl: string;
 
-    constructor(serverUrl: string, emoteWidget: EmoteWidget) {
+    constructor(serverUrl: string, emoteWidget: EmoteWidget, emoteWidgetConfig: EmoteWidgetConfig) {
         this.serverUrl = serverUrl;
         this.emoteWidget = emoteWidget;
+        this.emoteWidgetConfig = emoteWidgetConfig;
         this.startClient(serverUrl, emoteWidget);
     }
 
@@ -34,7 +67,11 @@ export class EmoteWidgetClient {
         this.numTimesTriedToReconnect = 0;
         clearInterval(this.reconnectInterval);
         console.log('[open] Connection established');
-        console.log('Checking server for cached emotes');
+        this.sendMessage(SocketMessageEnum.ClientRegister, this.emoteWidgetConfig.clientId);
+        this.pingInterval = setInterval(() => {
+            this.sendMessage(SocketMessageEnum.PING, {});
+        }, 45 * 1000); // ping the server on startup every 45 seconds to keep the connection alive
+
         const twitchDefault = 0;
         const textEmojiDefault = 42;
         const amazonPrimeDefault = 19194;
@@ -43,17 +80,21 @@ export class EmoteWidgetClient {
         const membTier3 = 24315;
         const nikeTier1 = 12661;
         const thunderTier1 = 135189;
+        const elenaTier1 = 104951;
+        const elenaTier2 = 104955;
+        const elenaTier3 = 104956;
+        const loonaTier1 = 715879;
+        const loonaTier2 = 715880;
+        const loonaTier3 = 715881;
 
-        const setIds = [twitchDefault, textEmojiDefault, amazonPrimeDefault, membTier1, membTier2, membTier3, nikeTier1, thunderTier1];
+        const setIds = [twitchDefault, textEmojiDefault, amazonPrimeDefault, membTier1, membTier2, membTier3, nikeTier1, thunderTier1, elenaTier1, elenaTier2, elenaTier3, loonaTier1, loonaTier2, loonaTier3];
 
         const clientData = {
             channelName: this.emoteWidget?.emoteConfig.channel,
             emoteSetIds: setIds
         };
-        this.socket?.send(JSON.stringify({ type: SocketMessageEnum.CheckEmoteCache, data: clientData }));
-        this.pingInterval = setInterval(() => {
-            this.socket?.send(JSON.stringify({ type: SocketMessageEnum.PING, data: {} }));
-        }, 45 * 1000); // ping the server on startup every 45 seconds to keep the connection alive
+        console.log('Checking server for cached emotes');
+        this.sendMessage(SocketMessageEnum.CheckEmoteCache, clientData);
     }
 
     onMessage(event: any) {
@@ -174,5 +215,14 @@ export class EmoteWidgetClient {
         this.socket.onmessage = this.onMessage.bind(this);
         this.socket.onclose = this.onClose.bind(this);
         this.socket.onerror = this.onError.bind(this);
+    }
+
+    formatDataForWebsocket(dataType: SocketMessageEnum, rawData: any) {
+        console.log(`Formatting Data for websocket.\nDataType: ${dataType} / ClientId: ${this.emoteWidgetConfig.clientId} / RawData:`, rawData);
+        return JSON.stringify({ type: dataType, data: rawData, toClientId: this.emoteWidgetConfig.clientId });
+    }
+
+    sendMessage(dataType: SocketMessageEnum, rawData: any) {
+        this.socket?.send(this.formatDataForWebsocket(dataType, rawData));
     }
 }
